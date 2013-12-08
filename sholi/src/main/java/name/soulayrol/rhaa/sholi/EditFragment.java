@@ -108,7 +108,7 @@ public class EditFragment extends AbstractListFragment {
 
     @Override
     public void onDestroy() {
-        getActivity().getActionBar().setSubtitle("");
+        getActivity().getActionBar().setSubtitle(null);
         super.onDestroy();
     }
 
