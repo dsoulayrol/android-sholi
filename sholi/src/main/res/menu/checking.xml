@@ -23,12 +23,12 @@
     <item android:id="@+id/action_edit"
         android:icon="@android:drawable/ic_menu_edit"
         android:title="@string/action_checking_edit"
-        android:orderInCategory="100"
+        android:orderInCategory="1"
         android:showAsAction="ifRoom" />
 
     <item android:id="@+id/action_check_all"
         android:title="@string/action_checking_check_all"
-        android:orderInCategory="30"
+        android:orderInCategory="10"
         android:showAsAction="never" />
 
     <item android:id="@+id/action_uncheck_all"
@@ -37,12 +37,12 @@
 
     <item android:id="@+id/action_remove_checked"
         android:title="@string/action_checking_remove_checked"
-        android:orderInCategory="15" />
+        android:orderInCategory="30" />
 
     <item android:id="@+id/action_empty"
         android:icon="@android:drawable/ic_menu_delete"
         android:title="@string/action_checking_empty"
-        android:orderInCategory="10"
+        android:orderInCategory="40"
         android:showAsAction="never" />
 
 </menu>
