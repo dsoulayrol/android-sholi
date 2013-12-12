@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ ShoLi, a simple tool to produce short (shopping) lists.
+
+ Copyright (C) 2013  David Soulayrol
+
+ ShoLi is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ShoLi is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+
+    <string name="app_name">ShoLi</string>
+
+    <!-- Menu options -->
+    <string name="action_erase">Effacer</string>
+    <string name="action_edit_erase_all">Tout effacer</string>
+    <string name="action_checking_check_all">Tout cocher</string>
+    <string name="action_checking_edit">Éditer</string>
+    <string name="action_checking_empty">Retirer tous les items</string>
+    <string name="action_checking_remove_checked">Retirer les items cochés</string>
+    <string name="action_checking_uncheck_all">Tout décocher</string>
+    <string name="action_main_about">À propos</string>
+    <string name="action_main_settings">Paramètres</string>
+
+    <!-- Dialog messages -->
+    <string name="dialog_about_title">À propos de ShoLi</string>
+    <string name="dialog_erase_all_message">Cette opération est irréversible. Continuer ?</string>
+    <string name="dialog_erase_all_title">Tout effacer</string>
+
+    <!-- UI elements -->
+    <string name="fragment_checking_list_empty">La liste est vide</string>
+    <string name="fragment_edit_list_empty">Aucun élément</string>
+    <string name="fragment_edit_add_button">Ajouter</string>
+    <string name="fragment_edit_input_hint">Nouvel item</string>
+    <string name="fragment_edit_selection_mode_title">Sélection des items</string>
+    <string name="fragment_edit_title">Éditer la liste</string>
+
+    <plurals name="selectedItems">
+        <item quantity="one">Un élément sélectionné.</item>
+        <item quantity="other">%d éléments sélectionnés.</item>
+    </plurals>
+
+</resources>

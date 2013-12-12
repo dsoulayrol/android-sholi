@@ -20,6 +20,8 @@
 <resources>
 
     <string name="app_name">ShoLi</string>
+
+    <!-- Menu options -->
     <string name="action_erase">Erase</string>
     <string name="action_edit_erase_all">Erase All</string>
     <string name="action_checking_check_all">Check All</string>
@@ -29,10 +31,14 @@
     <string name="action_checking_uncheck_all">Uncheck All</string>
     <string name="action_main_about">About</string>
     <string name="action_main_settings">Settings</string>
+
+    <!-- Dialog messages -->
     <string name="dialog_about_message">ShoLi  Copyright &#169; 2013  David Soulayrol\nThis program comes with ABSOLUTELY NO WARRANTY.\nThis is free software, and you are welcome to redistribute it under certain conditions\nSee http://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="dialog_about_title">About ShoLi</string>
-    <string name="dialog_erase_all_message">This will destroy all items. Continue?</string>
+    <string name="dialog_erase_all_message">This cannot be undone. Continue?</string>
     <string name="dialog_erase_all_title">Erase All</string>
+
+    <!-- UI elements -->
     <string name="fragment_checking_list_empty">List is empty</string>
     <string name="fragment_edit_list_empty">No items</string>
     <string name="fragment_edit_add_button">Add</string>
