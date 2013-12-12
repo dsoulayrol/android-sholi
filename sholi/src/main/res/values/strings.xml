@@ -25,6 +25,7 @@
     <string name="action_checking_check_all">Check All</string>
     <string name="action_checking_edit">Edit</string>
     <string name="action_checking_empty">Empty List</string>
+    <string name="action_checking_remove_checked">Remove Checked Items</string>
     <string name="action_checking_uncheck_all">Uncheck All</string>
     <string name="action_main_about">About</string>
     <string name="action_main_settings">Settings</string>

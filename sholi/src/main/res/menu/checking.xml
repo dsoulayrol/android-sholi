@@ -35,6 +35,10 @@
         android:title="@string/action_checking_uncheck_all"
         android:orderInCategory="20" />
 
+    <item android:id="@+id/action_remove_checked"
+        android:title="@string/action_checking_remove_checked"
+        android:orderInCategory="15" />
+
     <item android:id="@+id/action_empty"
         android:icon="@android:drawable/ic_menu_delete"
         android:title="@string/action_checking_empty"

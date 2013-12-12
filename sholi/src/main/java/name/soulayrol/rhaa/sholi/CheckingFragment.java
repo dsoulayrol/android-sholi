@@ -58,6 +58,9 @@ public class CheckingFragment extends AbstractListFragment {
             case R.id.action_uncheck_all:
                 updateAllItems(getAdapter().getCursor(), Sholi.Item.UNCHECKED);
                 return true;
+            case R.id.action_remove_checked:
+                updateAllItems(getAdapter().getCursor(), Sholi.Item.OFF_LIST, Sholi.Item.CHECKED);
+                return true;
             case R.id.action_empty:
                 updateAllItems(getAdapter().getCursor(), Sholi.Item.OFF_LIST);
                 return true;
@@ -110,19 +113,28 @@ public class CheckingFragment extends AbstractListFragment {
     }
 
     protected void updateAllItems(Cursor c, int status) {
+        updateAllItems(c, status, -1);
+    }
+
+    protected void updateAllItems(Cursor c, int status, int prev_status) {
         if (c.getCount() > 0)
         {
             StringBuilder buffer = new StringBuilder();
             ContentValues values = new ContentValues();
+            boolean is_head = true;
 
             values.put(Sholi.Item.KEY_STATUS, status);
 
             buffer.append("_ID IN (");
             c.moveToPosition(-1);
             while (c.moveToNext()) {
-                buffer.append(c.getLong(0));
-                if (!c.isLast())
-                    buffer.append(",");
+                if (prev_status == -1
+                        || c.getInt(c.getColumnIndex(Sholi.Item.KEY_STATUS)) == prev_status) {
+                    if (!is_head)
+                        buffer.append(",");
+                    buffer.append(c.getLong(0));
+                    is_head = false;
+                }
             }
             buffer.append(")");
 
