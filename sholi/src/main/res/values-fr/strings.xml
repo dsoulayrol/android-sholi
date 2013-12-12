@@ -41,7 +41,7 @@
     <string name="fragment_checking_list_empty">La liste est vide</string>
     <string name="fragment_edit_list_empty">Aucun élément</string>
     <string name="fragment_edit_add_button">Ajouter</string>
-    <string name="fragment_edit_input_hint">Nouvel item</string>
+    <string name="fragment_edit_input_hint">Intitulé</string>
     <string name="fragment_edit_selection_mode_title">Sélection des items</string>
     <string name="fragment_edit_title">Éditer la liste</string>
 

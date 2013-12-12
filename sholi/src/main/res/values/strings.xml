@@ -42,7 +42,7 @@
     <string name="fragment_checking_list_empty">List is empty</string>
     <string name="fragment_edit_list_empty">No items</string>
     <string name="fragment_edit_add_button">Add</string>
-    <string name="fragment_edit_input_hint">New Item</string>
+    <string name="fragment_edit_input_hint">Item Name</string>
     <string name="fragment_edit_selection_mode_title">Select Items</string>
     <string name="fragment_edit_title">Editing list</string>
 

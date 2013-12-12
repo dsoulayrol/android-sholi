@@ -148,12 +148,14 @@ public class EditFragment extends AbstractListFragment {
         super.onLoadFinished(cursorLoader, cursor);
 
         Editable editable = _newItemEdit.getEditableText();
-        boolean enabled = _newItemButton.isEnabled();
-        boolean doEnable = cursor.getCount() == 0 && editable.length() > 0;
+        int visibility = _newItemButton.getVisibility();
+        boolean doShow = cursor.getCount() == 0 && editable.length() > 0;
 
-        // Only call setEnabled when necessary.
-        if (enabled && !doEnable || !enabled && doEnable)
-            _newItemButton.setEnabled(!enabled);
+        // Only call setVisibility when necessary.
+        if (visibility == View.GONE && doShow)
+            _newItemButton.setVisibility(View.VISIBLE);
+        else if (visibility == View.VISIBLE && !doShow)
+            _newItemButton.setVisibility(View.GONE);
     }
 
     @Override

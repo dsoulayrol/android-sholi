@@ -21,26 +21,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/list_edit"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <EditText
-            android:id="@+id/list_edit"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="@string/fragment_edit_input_hint"
-            android:inputType="textShortMessage|textCapSentences"
-            android:editable="true" />
-
-        <Button
-            android:id="@+id/list_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/fragment_edit_add_button"
-            android:enabled="false" />
-    </LinearLayout>
+        android:hint="@string/fragment_edit_input_hint"
+        android:inputType="textShortMessage|textCapSentences"
+        android:editable="true" />
 
     <FrameLayout
         android:id="@+id/z_list_frame"
@@ -61,6 +48,11 @@
             android:text="@string/fragment_edit_list_empty" />
     </FrameLayout>
 
-
+    <Button
+        android:id="@+id/list_btn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fragment_edit_add_button"
+        android:visibility="gone" />
 
 </LinearLayout>
