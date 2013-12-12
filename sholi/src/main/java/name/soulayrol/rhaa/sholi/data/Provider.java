@@ -80,9 +80,9 @@ public class Provider extends ContentProvider {
     public String getType(Uri uri) {
         switch (__uriMatcher.match(uri)) {
             case TYPE_ITEMS:
-                return "vnd.android.cursor.dir/vnd.name.soulayrol.rhaa.sholi.item";
+                return "vnd.android.cursor.dir/vnd.name.soulayrol.rhaa.sholi.items";
             case TYPE_ITEM_ID:
-                return "vnd.android.cursor.item/vnd.name.soulayrol.rhaa.bosco.item";
+                return "vnd.android.cursor.item/vnd.name.soulayrol.rhaa.sholi.items";
             default:
                 throw new IllegalArgumentException("unsupported URI " + uri);
         }
