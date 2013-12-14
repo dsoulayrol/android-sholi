@@ -23,6 +23,7 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
 public class MainActivity extends Activity {
@@ -63,13 +64,14 @@ public class MainActivity extends Activity {
     }
 
     private void displayAboutDialog() {
+        View view = getLayoutInflater().inflate(R.layout.about_dlg, null, false);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setMessage(R.string.dialog_about_message)
-                .setIcon(android.R.drawable.ic_dialog_info)
+        builder.setIcon(android.R.drawable.ic_dialog_info)
                 .setTitle(R.string.dialog_about_title)
-                .setNeutralButton(android.R.string.ok, null);
-
-        builder.create().show();
+                .setView(view)
+                .setNeutralButton(android.R.string.ok, null)
+                .create()
+                .show();
     }
 }

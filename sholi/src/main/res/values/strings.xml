@@ -33,7 +33,10 @@
     <string name="action_main_settings">Settings</string>
 
     <!-- Dialog messages -->
-    <string name="dialog_about_message">ShoLi  Copyright &#169; 2013  David Soulayrol\nThis program comes with ABSOLUTELY NO WARRANTY.\nThis is free software, and you are welcome to redistribute it under certain conditions\nSee http://www.gnu.org/licenses/gpl-3.0.html</string>
+    <string name="dialog_about_copyright">Copyright &#169; 2013 David Soulayrol</string>
+    <string name="dialog_about_description">A simple <i>sho</i>rt <i>li</i>sts manager</string>
+    <string name="dialog_about_license">This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions.\nSee http://www.gnu.org/licenses/gpl-3.0.html</string>
+    <string name="dialog_about_icon">The icon is derived from <tt>List-Icon.svg</tt> which is available under an open license on <i>Wikimedia Commons</i>.</string>
     <string name="dialog_about_title">About ShoLi</string>
     <string name="dialog_erase_all_message">This cannot be undone. Continue?</string>
     <string name="dialog_erase_all_title">Erase All</string>

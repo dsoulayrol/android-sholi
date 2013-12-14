@@ -21,4 +21,21 @@
     <style name="AppTheme" parent="android:Theme.Holo">
     </style>
 
+    <style name="AboutDlgText" parent="@android:style/TextAppearance">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">20dp</item>
+        <item name="android:autoLink">web</item>
+        <item name="android:textSize">13sp</item>
+		<item name="android:textStyle">normal</item>
+		<item name="android:typeface">serif</item>
+	</style>
+
+    <style name="AboutDlgText.First">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:typeface">sans</item>
+    </style>
+
 </resources>

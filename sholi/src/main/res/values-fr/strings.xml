@@ -33,6 +33,9 @@
     <string name="action_main_settings">Paramètres</string>
 
     <!-- Dialog messages -->
+    <string name="dialog_about_description">Un gestionnaire simple de listes</string>
+    <string name="dialog_about_license">Ce programme vient SANS AUCUNE GARANTIE. C\'est un logiciel libre et vous êtes invité à le redistribuer suivant certaines condition.\nVoyez http://www.gnu.org/licenses/gpl-3.0.html</string>
+    <string name="dialog_about_icon">Le logo est dérivé de <tt>List-Icon.svg</tt>, disponible sous une license libre sur <i>Wikimedia Commons</i>.</string>
     <string name="dialog_about_title">À propos de ShoLi</string>
     <string name="dialog_erase_all_message">Cette opération est irréversible. Continuer ?</string>
     <string name="dialog_erase_all_title">Tout effacer</string>
