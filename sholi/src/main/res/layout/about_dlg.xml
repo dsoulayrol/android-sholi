@@ -23,16 +23,20 @@
     android:layout_height="match_parent"
     android:padding="10dp">
 
-    <TextView style="@style/AboutDlgText.First"
+    <TextView style="@style/AboutDlgText.Top"
         android:text="@string/dialog_about_description" />
+
+    <TextView style="@style/AboutDlgText.Withdrawn"
+        android:id="@+id/version_text"
+        android:text="@string/dialog_about_version" />
 
     <TextView style="@style/AboutDlgText"
         android:text="@string/dialog_about_copyright" />
 
-    <TextView style="@style/AboutDlgText"
+    <TextView style="@style/AboutDlgText.Withdrawn"
         android:text="@string/dialog_about_license" />
 
-    <TextView style="@style/AboutDlgText"
+    <TextView style="@style/AboutDlgText.Withdrawn"
         android:text="@string/dialog_about_icon" />
 
 </LinearLayout>

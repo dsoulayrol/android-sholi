@@ -20,10 +20,13 @@ package name.soulayrol.rhaa.sholi;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 
 public class MainActivity extends Activity {
@@ -66,6 +69,14 @@ public class MainActivity extends Activity {
     private void displayAboutDialog() {
         View view = getLayoutInflater().inflate(R.layout.about_dlg, null, false);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
+            TextView text = (TextView) view.findViewById(R.id.version_text);
+            text.setText(getString(R.string.dialog_about_version,
+                    info.versionName, info.versionCode));
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
         builder.setIcon(android.R.drawable.ic_dialog_info)
                 .setTitle(R.string.dialog_about_title)
