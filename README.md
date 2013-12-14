@@ -10,7 +10,9 @@ The fewer, the better.
 * A simple checking view.
 * A layout locked in portrait mode to ease handling when you have a can of peas in the other hand.
 * Requires no special permission at all.
- 
+
+See the CHANGES file for a list of prominent updates with each version.
+
 ## Usage
 
 ShoLi maintains a list of items, and those items are used to constitute a shopping list. So the usage of this program consists of, first, building or completing the set of known items and putting them on the list (typically at home, when you realise that you are out of milk for example) and then opening the list and checking the items when you drop them in your shopping cart.
