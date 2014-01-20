@@ -30,6 +30,7 @@
     <string name="action_checking_remove_checked">Remove Checked Items</string>
     <string name="action_checking_uncheck_all">Uncheck All</string>
     <string name="action_main_about">About</string>
+    <string name="action_main_data_overview">Data Overview</string>
     <string name="action_main_settings">Settings</string>
 
     <!-- Dialog messages -->
@@ -49,6 +50,19 @@
     <string name="fragment_edit_input_hint">Item Name</string>
     <string name="fragment_edit_selection_mode_title">Select Items</string>
     <string name="fragment_edit_title">Editing list</string>
+
+    <string name="activity_data_title">Data overview</string>
+    <string name="fragment_data_introduction">Analysing database…</string>
+    <string name="fragment_data_export_text">The content of database can be exported using Email, SMS, or any application accepting text content.</string>
+    <string name="fragment_data_export_button">Export</string>
+    <string name="fragment_data_export_subject">Sholi Database Content</string>
+    <string name="fragment_data_erase_text">Erase the entire content of the database. This operation is not reversible.</string>
+    <string name="fragment_data_erase_button">Erase All</string>
+    <plurals name="fragment_data_overview_text">
+        <item quantity="zero">The database is empty.</item>
+        <item quantity="one">There is %d item in database.</item>
+        <item quantity="other">There are %d items in database.</item>
+    </plurals>
 
     <plurals name="selectedItems">
         <item quantity="one">One item selected.</item>

@@ -18,10 +18,8 @@
 package name.soulayrol.rhaa.sholi;
 
 import android.app.ActionBar;
-import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.CursorLoader;
-import android.content.DialogInterface;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -102,24 +100,9 @@ public class EditFragment extends AbstractListFragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.edit, menu);
-    }
-
-    @Override
     public void onDestroy() {
         getActivity().getActionBar().setSubtitle(null);
         super.onDestroy();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_erase_all:
-                resetDatabase();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -186,22 +169,6 @@ public class EditFragment extends AbstractListFragment {
         values.put(Sholi.Item.KEY_STATUS, Sholi.Item.UNCHECKED);
         uri = getContent().insert(Sholi.Item.CONTENT_URI, values);
         return uri;
-    }
-
-    private void resetDatabase() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-        builder.setMessage(R.string.dialog_erase_all_message)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle(R.string.dialog_erase_all_title)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        getContent().delete(Sholi.Item.CONTENT_URI, null, null);
-                    }
-                })
-                .setNegativeButton(android.R.string.no, null);
-
-        builder.create().show();
     }
 
     private class SelectionModeHandler implements ListView.MultiChoiceModeListener {

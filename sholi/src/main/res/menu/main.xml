@@ -27,6 +27,11 @@
             android:showAsAction="never" />
     -->
 
+    <item android:id="@+id/action_data_overview"
+        android:title="@string/action_main_data_overview"
+        android:orderInCategory="90"
+        android:showAsAction="never" />
+
     <item android:id="@+id/action_about"
         android:title="@string/action_main_about"
         android:orderInCategory="1000"

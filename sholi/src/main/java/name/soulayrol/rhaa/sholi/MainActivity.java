@@ -20,6 +20,7 @@ package name.soulayrol.rhaa.sholi;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -52,6 +53,9 @@ public class MainActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.action_about:
                 displayAboutDialog();
+                return true;
+            case R.id.action_data_overview:
+                startActivity(new Intent(this, DataOverviewActivity.class));
                 return true;
 //            case R.id.action_settings:
 //                return true;
