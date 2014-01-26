@@ -49,8 +49,6 @@ public class EditFragment extends AbstractListFragment {
 
     private TextView _newItemEdit;
 
-    private View _editFrameView;
-
     private boolean _editMode = true;
 
     @Override
@@ -60,7 +58,6 @@ public class EditFragment extends AbstractListFragment {
 
         _newItemButton = (Button) view.findViewById(R.id.list_btn);
         _newItemEdit = (EditText) view.findViewById(R.id.list_edit);
-        _editFrameView = (View) _newItemEdit.getParent();
 
         _newItemEdit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -193,7 +190,7 @@ public class EditFragment extends AbstractListFragment {
             inflater.inflate(R.menu.list_select, menu);
             mode.setTitle(R.string.fragment_edit_selection_mode_title);
             if (_editMode)
-                _editFrameView.setVisibility(View.GONE);
+                _newItemEdit.setVisibility(View.GONE);
             return true;
         }
 
@@ -227,7 +224,7 @@ public class EditFragment extends AbstractListFragment {
         @Override
         public void onDestroyActionMode(ActionMode mode) {
             if (_editMode)
-                _editFrameView.setVisibility(View.VISIBLE);
+                _newItemEdit.setVisibility(View.VISIBLE);
         }
     }
 }
