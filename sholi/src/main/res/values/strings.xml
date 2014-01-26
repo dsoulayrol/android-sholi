@@ -53,15 +53,35 @@
 
     <string name="activity_data_title">Data overview</string>
     <string name="fragment_data_introduction">Analysing database…</string>
+    <string name="fragment_data_import_introduction">Analysing data…</string>
+    <string name="fragment_data_import_conclusion">Import completed.</string>
     <string name="fragment_data_export_text">The content of database can be exported using Email, SMS, or any application accepting text content.</string>
     <string name="fragment_data_export_button">Export</string>
     <string name="fragment_data_export_subject">Sholi Database Content</string>
     <string name="fragment_data_erase_text">Erase the entire content of the database. This operation is not reversible.</string>
     <string name="fragment_data_erase_button">Erase All</string>
+
+    <!-- Zero is not working as expected in plurals.
+         See http://code.google.com/p/android/issues/detail?id=8287 -->
     <plurals name="fragment_data_overview_text">
         <item quantity="zero">The database is empty.</item>
         <item quantity="one">There is %d item in database.</item>
         <item quantity="other">There are %d items in database.</item>
+    </plurals>
+    <plurals name="fragment_data_import_text">
+        <item quantity="zero">The data did not contain any list.</item>
+        <item quantity="one">Handling %d item.</item>
+        <item quantity="other">Handling %d items.</item>
+    </plurals>
+    <plurals name="fragment_data_import_success_text">
+        <item quantity="zero">No item was imported</item>
+        <item quantity="one">%d item imported</item>
+        <item quantity="other">%d items imported</item>
+    </plurals>
+    <plurals name="fragment_data_import_ignored_text">
+        <item quantity="zero">.</item>
+        <item quantity="one">, %d item ignored.</item>
+        <item quantity="other">, %d items ignored.</item>
     </plurals>
 
     <plurals name="selectedItems">
