@@ -2,7 +2,7 @@
 <!--
  ShoLi, a simple tool to produce short (shopping) lists.
 
- Copyright (C) 2013  David Soulayrol
+ Copyright (C) 2013,2014  David Soulayrol
 
  ShoLi is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@
 
     <!-- Dialog messages -->
     <string name="dialog_about_version">Version %1$s (code iteration: %2$d)</string>
-    <string name="dialog_about_copyright">Copyright &#169; 2013 David Soulayrol</string>
+    <string name="dialog_about_copyright">Copyright &#169; 2013,2014 David Soulayrol</string>
     <string name="dialog_about_description">A simple <i>sho</i>rt <i>li</i>sts manager</string>
     <string name="dialog_about_license">This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to redistribute it under certain conditions.\nSee http://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="dialog_about_icon">The icon is derived from <tt>List-Icon.svg</tt> which is available under an open license on <i>Wikimedia Commons</i>.</string>
