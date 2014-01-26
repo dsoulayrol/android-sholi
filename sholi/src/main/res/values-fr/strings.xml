@@ -30,6 +30,7 @@
     <string name="action_checking_remove_checked">Retirer les items cochés</string>
     <string name="action_checking_uncheck_all">Tout décocher</string>
     <string name="action_main_about">À propos</string>
+    <string name="action_main_data_overview">Gestion des données</string>
     <string name="action_main_settings">Paramètres</string>
 
     <!-- Dialog messages -->
@@ -48,6 +49,37 @@
     <string name="fragment_edit_input_hint">Intitulé</string>
     <string name="fragment_edit_selection_mode_title">Sélection des items</string>
     <string name="fragment_edit_title">Éditer la liste</string>
+
+    <string name="activity_data_title">Gestion des données</string>
+    <string name="fragment_data_introduction">Analyse de la base…</string>
+    <string name="fragment_data_import_introduction">Analyse des données…</string>
+    <string name="fragment_data_import_conclusion">Import terminé.</string>
+    <string name="fragment_data_export_text">La base de données peut être exportée par courriel, SMS, ou toute application qui accepte de recevoir du texte.</string>
+    <string name="fragment_data_export_button">Exporter</string>
+    <string name="fragment_data_export_subject">Base de données Sholi</string>
+    <string name="fragment_data_erase_text">Effacer la totalité de la base de données. Cette opération n\'est pas réversible.</string>
+    <string name="fragment_data_erase_button">Tout effacer</string>
+
+    <plurals name="fragment_data_overview_text">
+        <item quantity="zero">La base de données est vide.</item>
+        <item quantity="one">Il y a %d item dans la base de données.</item>
+        <item quantity="other">Il y a %d items dans la base de données.</item>
+    </plurals>
+    <plurals name="fragment_data_import_text">
+        <item quantity="zero">Les données ne contiennent aucune liste.</item>
+        <item quantity="one">Lecture de %d item.</item>
+        <item quantity="other">Lecture de %d items.</item>
+    </plurals>
+    <plurals name="fragment_data_import_success_text">
+        <item quantity="zero">Aucun item n\'a été importé</item>
+        <item quantity="one">%d item importé</item>
+        <item quantity="other">%d items importés</item>
+    </plurals>
+    <plurals name="fragment_data_import_ignored_text">
+        <item quantity="zero">.</item>
+        <item quantity="one">, %d item ignoré.</item>
+        <item quantity="other">, %d items ignoré.</item>
+    </plurals>
 
     <plurals name="selectedItems">
         <item quantity="one">Un élément sélectionné.</item>
