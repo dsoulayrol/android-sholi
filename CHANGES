@@ -1,7 +1,12 @@
+Version 1.2
+  + Added the data overview activity, with import and export capabilities
+  * Updated the french translation
+  * Fixed #1 (Multi selection in editing view is broken)
+
 Version 1.1
   * Revamped About dialog
   + New 'Remove Checked Items' on the checking view
-  + French translatation
+  + French translation
 
 Version 1.0
   + Initial release
