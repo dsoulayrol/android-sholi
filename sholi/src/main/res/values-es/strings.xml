@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ ShoLi, a simple tool to produce short (shopping) lists.
+
+ Copyright (C) 2013,2014  David Soulayrol
+
+ ShoLi is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ ShoLi is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+
+    <string name="app_name">ShoLi</string>
+
+    <!-- Menu options -->
+    <string name="action_erase">Borrar</string>
+    <string name="action_edit_erase_all">Borrar todo</string>
+    <string name="action_checking_check_all">Marcar todo</string>
+    <string name="action_checking_edit">Editar</string>
+    <string name="action_checking_empty">Eliminar todos los elementos</string>
+    <string name="action_checking_remove_checked">Eliminar elementos marcados</string>
+    <string name="action_checking_uncheck_all">Desmarcar todos</string>
+    <string name="action_main_about">Acerca de</string>
+    <string name="action_main_data_overview">Resumen de datos</string>
+    <string name="action_main_settings">Ajustes</string>
+
+    <!-- Dialog messages -->
+    <string name="dialog_about_version">Versión %1$s (iteración: %2$d)</string>
+    <string name="dialog_about_copyright">Copyright &#169; 2013,2014 David Soulayrol</string>
+    <string name="dialog_about_description">Gestor de listas simple <i>sho</i>rt <i>li</i>sts</string>
+    <string name="dialog_about_license">Este programa se ofrece sin NINGUNA GARANTÍA. Es software libre, puede redistribuirlo bajo algunas condiciones.\nVer http://www.gnu.org/licenses/gpl-3.0.html</string>
+    <string name="dialog_about_icon">El icono se deriva de <tt>List-Icon.svg</tt> el cual está disponible bajo licencia abierta en <i>Wikimedia Commons</i>.</string>
+    <string name="dialog_about_title">Acerca de ShoLi</string>
+    <string name="dialog_erase_all_message">Esta operación no puede deshacerse. ¿Desea continuar?</string>
+    <string name="dialog_erase_all_title">Borrar todo</string>
+
+    <!-- UI elements -->
+    <string name="fragment_checking_list_empty">La lista está vacía</string>
+    <string name="fragment_edit_list_empty">No hay elementos</string>
+    <string name="fragment_edit_add_button">Añadir</string>
+    <string name="fragment_edit_input_hint">Nombre de elemento</string>
+    <string name="fragment_edit_selection_mode_title">Seleccionar elementos</string>
+    <string name="fragment_edit_title">Editando lista</string>
+
+    <string name="activity_data_title">Resumen de datos</string>
+    <string name="fragment_data_introduction">Analizando base de datos…</string>
+    <string name="fragment_data_import_introduction">Analizando datos…</string>
+    <string name="fragment_data_import_conclusion">Importación completada.</string>
+    <string name="fragment_data_export_text">El contenido de la base de datos puede ser exportado usando Email, SMS, o cualquier otra aplicación que acepte texto como contenido.</string>
+    <string name="fragment_data_export_button">Exportar</string>
+    <string name="fragment_data_export_subject">Contenido de la base de datos de ShoLi</string>
+    <string name="fragment_data_erase_text">Borrar todo el contenido de la base de datos. Esta operación no es reversible.</string>
+    <string name="fragment_data_erase_button">Borrar todo</string>
+
+    <!-- Zero is not working as expected in plurals.
+         See http://code.google.com/p/android/issues/detail?id=8287 -->
+    <plurals name="fragment_data_overview_text">
+        <item quantity="zero">La base de datos está vacía.</item>
+        <item quantity="one">Hay %d elemento en la base de datos.</item>
+        <item quantity="other">Hay %d elementos en la base de datos.</item>
+    </plurals>
+    <plurals name="fragment_data_import_text">
+        <item quantity="zero">Los datos no contenían ninguna lista.</item>
+        <item quantity="one">Manejando %d elemento.</item>
+        <item quantity="other">Manejando %d elementos.</item>
+    </plurals>
+    <plurals name="fragment_data_import_success_text">
+        <item quantity="zero">No se ha importado ningún elemento</item>
+        <item quantity="one">%d elementos importados</item>
+        <item quantity="other">%d elementos importados</item>
+    </plurals>
+    <plurals name="fragment_data_import_ignored_text">
+        <item quantity="zero">.</item>
+        <item quantity="one">, %d elementos ignorados.</item>
+        <item quantity="other">, %d elementos ignorados.</item>
+    </plurals>
+
+    <plurals name="selectedItems">
+        <item quantity="one">Un elemento seleccionado.</item>
+        <item quantity="other">%d elementos seleccionados.</item>
+    </plurals>
+
+</resources>
