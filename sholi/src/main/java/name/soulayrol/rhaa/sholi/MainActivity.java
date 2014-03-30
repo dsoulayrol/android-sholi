@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +37,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         if (savedInstanceState == null && findViewById(R.id.container) != null) {
             getFragmentManager().beginTransaction().add(R.id.container, new CheckingFragment()).commit();
@@ -57,8 +60,9 @@ public class MainActivity extends Activity {
             case R.id.action_data_overview:
                 startActivity(new Intent(this, DataOverviewActivity.class));
                 return true;
-//            case R.id.action_settings:
-//                return true;
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

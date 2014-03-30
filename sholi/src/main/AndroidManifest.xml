@@ -57,6 +57,10 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="name.soulayrol.rhaa.sholi.SettingsActivity"
+            android:label="@string/activity_settings_title">
+        </activity>
     </application>
 
 </manifest>

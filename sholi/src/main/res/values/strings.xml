@@ -43,6 +43,15 @@
     <string name="dialog_erase_all_message">This cannot be undone. Continue?</string>
     <string name="dialog_erase_all_title">Erase All</string>
 
+    <!-- Settings -->
+    <string name="activity_settings_title">Settings</string>
+    <string name="settings_import_title">Merge policy on import</string>
+    <string name="settings_import_dlg_title">On import</string>
+    <string-array name="settings_import_choices">
+        <item>Keep items current status</item>
+        <item>Apply imported status</item>
+    </string-array>
+
     <!-- UI elements -->
     <string name="fragment_checking_list_empty">List is empty</string>
     <string name="fragment_edit_list_empty">No items</string>

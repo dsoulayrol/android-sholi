@@ -22,6 +22,7 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
 
 public class DataOverviewActivity extends Activity {
@@ -35,6 +36,8 @@ public class DataOverviewActivity extends Activity {
 
         Intent intent = getIntent();
         String type = intent.getType();
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         if (savedInstanceState == null && findViewById(R.id.container) != null) {
             getFragmentManager().beginTransaction().add(

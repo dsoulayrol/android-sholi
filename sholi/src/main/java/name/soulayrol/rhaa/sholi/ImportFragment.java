@@ -21,8 +21,10 @@ package name.soulayrol.rhaa.sholi;
 import android.app.DialogFragment;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,8 +67,13 @@ public class ImportFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String policy = sharedPref.getString(
+                SettingsActivity.KEY_IMPORT_MERGE_POLICY,
+                getResources().getString(R.string.setting_import_default_value));
+
         setRetainInstance(true);
-        ImportTask task = new ImportTask(getArguments().getString(ARG_DATA));
+        ImportTask task = new ImportTask(getArguments().getString(ARG_DATA), policy);
         _taskRef = new WeakReference<ImportTask>(task);
         task.execute();
 
@@ -134,11 +141,13 @@ public class ImportFragment extends DialogFragment {
     private class ImportTask extends AsyncTask<Void, Integer, ImportResult> {
 
         private String _data;
+        private String _policy;
         private int _dataSize;
         private Semaphore _fragmentView = new Semaphore(1);
 
-        public ImportTask(String data) {
+        public ImportTask(String data, String policy) {
             _data = data;
+            _policy = policy;
         }
 
         public void startReporting() {
@@ -168,8 +177,15 @@ public class ImportFragment extends DialogFragment {
                 values.put(Sholi.Item.KEY_STATUS, item.status);
                 if (content.insert(Sholi.Item.CONTENT_URI, values) != null)
                     result.addImported();
-                else
-                    result.addIgnored();
+                else {
+                    if (_policy.equals("merge")) {
+                        content.update(Sholi.Item.CONTENT_URI, values,
+                                Sholi.Item.KEY_NAME + " = ?", new String[] { item.name } );
+                        result.addImported();
+                    }
+                    else
+                        result.addIgnored();
+                }
 
                 publishProgress(1);
             }
