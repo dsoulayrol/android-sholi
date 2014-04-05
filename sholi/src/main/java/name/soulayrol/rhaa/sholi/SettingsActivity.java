@@ -24,6 +24,7 @@ import android.os.Bundle;
 
 public class SettingsActivity extends Activity {
 
+    public static final String KEY_LIST_ITEM_SIZE = "pref_items_size";
     public static final String KEY_IMPORT_MERGE_POLICY = "pref_import_merge_policy";
 
     @Override

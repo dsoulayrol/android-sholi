@@ -24,11 +24,13 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -58,11 +60,14 @@ public abstract class AbstractListFragment extends ListFragment implements
 
     private Adapter _adapter;
 
+    private String _defaultItemSize;
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         _content = getActivity().getContentResolver();
+        _defaultItemSize = getResources().getString(R.string.settings_items_size_default_value);
     }
 
     @Override
@@ -74,6 +79,15 @@ public abstract class AbstractListFragment extends ListFragment implements
         setHasOptionsMenu(true);
         setListAdapter(_adapter);
         getLoaderManager().initLoader(0, null, this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        _adapter._textSize = Integer.valueOf(sharedPref.getString(
+                SettingsActivity.KEY_LIST_ITEM_SIZE, _defaultItemSize));
+        _adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -94,6 +108,8 @@ public abstract class AbstractListFragment extends ListFragment implements
 
     protected class Adapter extends SimpleCursorAdapter {
 
+        private int _textSize;
+
         public Adapter(Context context) {
             super(context, R.layout.list_item, null,
                     new String[]{Sholi.Item.KEY_NAME}, new int[]{
@@ -104,6 +120,7 @@ public abstract class AbstractListFragment extends ListFragment implements
         public void bindView(View view, Context context, Cursor cursor) {
             TextView item = (TextView) view.findViewById(R.id.item_name);
             item.setText(cursor.getString(cursor.getColumnIndex(Sholi.Item.KEY_NAME)));
+            item.setTextSize(_textSize);
             switch (cursor.getInt(cursor.getColumnIndex(Sholi.Item.KEY_STATUS))) {
                 case Sholi.Item.OFF_LIST:
                     item.setPaintFlags(item.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);

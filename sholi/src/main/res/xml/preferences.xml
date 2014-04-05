@@ -19,6 +19,13 @@
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <ListPreference
+        android:key="pref_items_size"
+        android:title="@string/settings_items_size_title"
+        android:dialogTitle="@string/settings_items_size_title"
+        android:entries="@array/settings_items_size_values"
+        android:entryValues="@array/settings_items_size_values"
+        android:defaultValue="@string/settings_items_size_default_value" />
+    <ListPreference
         android:key="pref_import_merge_policy"
         android:title="@string/settings_import_title"
         android:dialogTitle="@string/settings_import_dlg_title"

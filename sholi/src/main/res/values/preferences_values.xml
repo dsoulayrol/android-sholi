@@ -18,6 +18,15 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
+    <string-array name="settings_items_size_values">
+        <item>15</item>
+        <item>18</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+    </string-array>
+    <string name="settings_items_size_default_value">18</string>
+
     <string-array name="setting_import_values">
         <item>ignore</item>
         <item>merge</item>

@@ -45,6 +45,7 @@
 
     <!-- Settings -->
     <string name="activity_settings_title">Settings</string>
+    <string name="settings_items_size_title">List items text size</string>
     <string name="settings_import_title">Merge policy on import</string>
     <string name="settings_import_dlg_title">On import</string>
     <string-array name="settings_import_choices">
