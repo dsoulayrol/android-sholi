@@ -1,6 +1,6 @@
 /*
- * ShoLi, a simple tool to produce short (shopping) lists.
- * Copyright (C) 2013  David Soulayrol
+ * ShoLi, a simple tool to produce short lists.
+ * Copyright (C) 2013,2014  David Soulayrol
  *
  * ShoLi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,47 +18,26 @@
 package name.soulayrol.rhaa.sholi;
 
 import android.app.ListFragment;
-import android.app.LoaderManager;
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.Loader;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
 
-import name.soulayrol.rhaa.sholi.data.Sholi;
+import de.greenrobot.dao.query.LazyList;
+import name.soulayrol.rhaa.sholi.data.AbstractLazyListAdapter;
+import name.soulayrol.rhaa.sholi.data.ItemLazyListAdapter;
+import name.soulayrol.rhaa.sholi.data.Operations;
+import name.soulayrol.rhaa.sholi.data.model.DaoSession;
+import name.soulayrol.rhaa.sholi.data.model.Item;
 
 
-public abstract class AbstractListFragment extends ListFragment implements
-        LoaderManager.LoaderCallbacks<Cursor> {
+public abstract class AbstractListFragment extends ListFragment {
 
-    /**
-     * The columns we are interested in.
-     */
-    protected static final String[] PROJECTION = new String[]{
-            Sholi.Item._ID,
-            Sholi.Item.KEY_NAME,
-            Sholi.Item.KEY_STATUS
-    };
+    private DaoSession _session;
 
-    /**
-     * The common order used to present the items in a list.
-     */
-    protected static final String ORDER = Sholi.Item.KEY_NAME + " ASC";
-
-    private ContentResolver _content;
-
-    private Adapter _adapter;
+    private AbstractLazyListAdapter _adapter;
 
     private String _defaultItemSize;
 
@@ -66,7 +45,6 @@ public abstract class AbstractListFragment extends ListFragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        _content = getActivity().getContentResolver();
         _defaultItemSize = getResources().getString(R.string.settings_items_size_default_value);
     }
 
@@ -74,82 +52,43 @@ public abstract class AbstractListFragment extends ListFragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        _adapter = new Adapter(getActivity());
+        _session = Operations.openSession(getActivity());
+        _adapter = new ItemLazyListAdapter(getActivity(), createList(getActivity()), 0);
 
         setHasOptionsMenu(true);
         setListAdapter(_adapter);
-        getLoaderManager().initLoader(0, null, this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        _adapter._textSize = Integer.valueOf(sharedPref.getString(
-                SettingsActivity.KEY_LIST_ITEM_SIZE, _defaultItemSize));
-        _adapter.notifyDataSetChanged();
+        _adapter.setTextSize(Integer.valueOf(sharedPref.getString(
+                SettingsActivity.KEY_LIST_ITEM_SIZE, _defaultItemSize)));
+        _session.clear();
+        _adapter.setLazyList(createList(getActivity()));
+    }
+
+    @Override
+    public void onDestroy() {
+        getAdapter().setLazyList(null);
+        super.onDestroy();
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Uri uri = ContentUris.withAppendedId(Sholi.Item.CONTENT_URI, id);
-        updateItem(_content.query(uri, PROJECTION, null, null, null), uri);
+        updateItem((Item) _adapter.getItem(position));
     }
 
-    @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        _adapter.swapCursor(cursor);
+    protected DaoSession getSession() {
+        return _session;
     }
 
-    @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {
-        _adapter.swapCursor(null);
-    }
-
-    protected class Adapter extends SimpleCursorAdapter {
-
-        private int _textSize;
-
-        public Adapter(Context context) {
-            super(context, R.layout.list_item, null,
-                    new String[]{Sholi.Item.KEY_NAME}, new int[]{
-                    android.R.id.text1}, 0);
-        }
-
-        @Override
-        public void bindView(View view, Context context, Cursor cursor) {
-            TextView item = (TextView) view.findViewById(R.id.item_name);
-            item.setText(cursor.getString(cursor.getColumnIndex(Sholi.Item.KEY_NAME)));
-            item.setTextSize(_textSize);
-            switch (cursor.getInt(cursor.getColumnIndex(Sholi.Item.KEY_STATUS))) {
-                case Sholi.Item.OFF_LIST:
-                    item.setPaintFlags(item.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
-                    item.setTextColor(Color.GRAY);
-                    break;
-                case Sholi.Item.UNCHECKED:
-                    item.setPaintFlags(item.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
-                    item.setTextColor(Color.GREEN);
-                    break;
-                case Sholi.Item.CHECKED:
-                    item.setPaintFlags(item.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                    item.setTextColor(Color.WHITE);
-                    break;
-            }
-        }
-
-        @Override
-        public CharSequence convertToString(Cursor cursor) {
-            return cursor.getString(cursor.getColumnIndex(Sholi.Item.KEY_NAME));
-        }
-    }
-
-    protected Adapter getAdapter() {
+    protected AbstractLazyListAdapter getAdapter() {
         return _adapter;
     }
 
-    protected ContentResolver getContent() {
-        return _content;
-    }
+    protected abstract LazyList<Item> createList(Context context);
 
-    protected abstract void updateItem(Cursor c, Uri uri);
+    protected abstract void updateItem(Item item);
 }

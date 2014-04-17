@@ -1,7 +1,7 @@
 /*
- * ShoLi, a simple tool to produce short (shopping) lists.
+ * ShoLi, a simple tool to produce short lists.
  *
- * Copyright (C) 2013  David Soulayrol
+ * Copyright (C) 2013,2014  David Soulayrol
  *
  * ShoLi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,12 +20,8 @@ package name.soulayrol.rhaa.sholi;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.app.LoaderManager;
-import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.Loader;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,26 +29,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import de.greenrobot.dao.query.LazyList;
 import name.soulayrol.rhaa.sholi.data.Operations;
-import name.soulayrol.rhaa.sholi.data.Sholi;
+import name.soulayrol.rhaa.sholi.data.model.DaoSession;
+import name.soulayrol.rhaa.sholi.data.model.Item;
 
 
-public class DataOverviewFragment extends Fragment implements
-        LoaderManager.LoaderCallbacks<Cursor> {
+public class DataOverviewFragment extends Fragment {
 
-    /**
-     * The columns we are interested in.
-     */
-    protected static final String[] PROJECTION = new String[]{
-            Sholi.Item._ID,
-            Sholi.Item.KEY_NAME,
-            Sholi.Item.KEY_STATUS
-    };
-
-    /**
-     * The common order used to present the items in a list.
-     */
-    protected static final String ORDER = Sholi.Item.KEY_NAME + " ASC";
+    private DaoSession _session;
 
     TextView _summary;
 
@@ -60,13 +45,10 @@ public class DataOverviewFragment extends Fragment implements
 
     Button _eraseButton;
 
-    private Cursor _cursor;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        getLoaderManager().initLoader(0, null, this);
+        _session = Operations.openSession(getActivity());
     }
 
     @Override
@@ -82,8 +64,9 @@ public class DataOverviewFragment extends Fragment implements
             public void onClick(View v) {
                 StringBuilder builder = new StringBuilder();
                 Intent intent = new Intent(Intent.ACTION_SEND);
-
-                Operations.serialize(_cursor, builder);
+                LazyList<Item> items = _session.getItemDao().queryBuilder().listLazy();
+                Operations.serialize(items, builder);
+                items.close();
 
                 intent.setType("text/plain");
                 intent.putExtra(Intent.EXTRA_SUBJECT, R.string.fragment_data_export_subject);
@@ -105,8 +88,8 @@ public class DataOverviewFragment extends Fragment implements
                         .setPositiveButton(android.R.string.yes,
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        getActivity().getContentResolver().delete(
-                                                Sholi.Item.CONTENT_URI, null, null);
+                                        _session.deleteAll(Item.class);
+                                        updateView();
                                     }
                                 })
                         .setNegativeButton(android.R.string.no, null);
@@ -114,30 +97,21 @@ public class DataOverviewFragment extends Fragment implements
                 builder.create().show();
             }
         });
+
         return view;
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new CursorLoader(getActivity(), Sholi.Item.CONTENT_URI,
-                PROJECTION, null, null, ORDER);
+    public void onResume() {
+        super.onResume();
+        updateView();
     }
 
-    @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        _cursor = cursor;
+    private void updateView() {
+        long count = _session.getItemDao().count();
         _summary.setText(getResources().getQuantityString(
-                R.plurals.fragment_data_overview_text, cursor.getCount(), cursor.getCount()));
-        _exportButton.setEnabled(true);
-        _eraseButton.setEnabled(true);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {
-        if (_cursor != null) {
-            // TODO: What about the displayed information?
-            _exportButton.setEnabled(false);
-            _eraseButton.setEnabled(false);
-        }
+                R.plurals.fragment_data_overview_text, (int)count, count));
+        _exportButton.setEnabled(count > 0);
+        _eraseButton.setEnabled(count > 0);
     }
 }

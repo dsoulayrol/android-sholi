@@ -18,11 +18,18 @@
  */
 package name.soulayrol.rhaa.sholi.data;
 
-import android.database.Cursor;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import de.greenrobot.dao.query.LazyList;
+import name.soulayrol.rhaa.sholi.data.model.Checkable;
+import name.soulayrol.rhaa.sholi.data.model.DaoMaster;
+import name.soulayrol.rhaa.sholi.data.model.DaoSession;
+import name.soulayrol.rhaa.sholi.data.model.Item;
 
 
 public class Operations {
@@ -30,48 +37,47 @@ public class Operations {
     // TODO: This is arbitrary and should match the maximum database item's name field
     private static final int MAX_SERIALIZED_LENGTH = 256;
 
-    public static class TransientItem {
-        public TransientItem(String name, int status) {
-            this.name = name;
-            this.status = status;
-        }
+    private static SQLiteDatabase _database;
 
-        public String name;
-        public int status;
+    public static DaoSession openSession(Context context) {
+        if (_database == null) {
+            DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, "sholi-db", null);
+            _database = helper.getWritableDatabase();
+        }
+        DaoMaster daoMaster = new DaoMaster(_database);
+        return daoMaster.newSession();
     }
 
-    public static void serialize(Cursor c, StringBuilder builder) {
-        c.moveToPosition(-1);
-        int idx = c.getColumnIndex(Sholi.Item.KEY_NAME);
-        while (c.moveToNext()) {
-            switch (c.getInt(c.getColumnIndex(Sholi.Item.KEY_STATUS))) {
-                case Sholi.Item.CHECKED:
+    public static void serialize(LazyList<Item> items, StringBuilder builder) {
+        for (Item item: items) {
+            switch (item.getStatus()) {
+                case Checkable.CHECKED:
                     builder.append('+');
                     break;
-                case Sholi.Item.UNCHECKED:
+                case Checkable.UNCHECKED:
                     builder.append('-');
                     break;
                 default:
                     builder.append('*');
                     break;
             }
-            builder.append(c.getString(idx)).append('\n');
+            builder.append(item.getName()).append('\n');
         }
     }
 
-    public static List<TransientItem> deserialize(String data) {
-        List<TransientItem> items = new ArrayList<TransientItem>();
+    public static List<Item> deserialize(String data) {
+        List<Item> items = new ArrayList<Item>();
         Scanner scanner = new Scanner(data);
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             if (line.length() <= MAX_SERIALIZED_LENGTH) {
                 if (line.startsWith("+"))
-                    items.add(new TransientItem(line.substring(1).trim(), Sholi.Item.CHECKED));
+                    items.add(new Item(null, line.substring(1).trim(), Checkable.CHECKED));
                 else if (line.startsWith("-"))
-                    items.add(new TransientItem(line.substring(1).trim(), Sholi.Item.UNCHECKED));
+                    items.add(new Item(null, line.substring(1).trim(), Checkable.UNCHECKED));
                 else if (line.startsWith("*"))
-                    items.add(new TransientItem(line.substring(1).trim(), Sholi.Item.OFF_LIST));
+                    items.add(new Item(null, line.substring(1).trim(), Checkable.OFF_LIST));
             }
         }
 

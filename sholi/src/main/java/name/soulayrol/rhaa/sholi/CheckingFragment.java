@@ -1,6 +1,6 @@
 /*
- * ShoLi, a simple tool to produce short (shopping) lists.
- * Copyright (C) 2013  David Soulayrol
+ * ShoLi, a simple tool to produce short lists.
+ * Copyright (C) 2013,2014  David Soulayrol
  *
  * ShoLi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -11,18 +11,14 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
-
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package name.soulayrol.rhaa.sholi;
 
 import android.app.FragmentTransaction;
-import android.content.ContentValues;
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,8 +27,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
 
-import name.soulayrol.rhaa.sholi.data.Sholi;
+import de.greenrobot.dao.query.LazyList;
+import de.greenrobot.dao.query.QueryBuilder;
+import name.soulayrol.rhaa.sholi.data.model.Checkable;
+import name.soulayrol.rhaa.sholi.data.model.Item;
+import name.soulayrol.rhaa.sholi.data.model.ItemDao;
 
 
 public class CheckingFragment extends AbstractListFragment {
@@ -53,16 +55,16 @@ public class CheckingFragment extends AbstractListFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_check_all:
-                updateAllItems(getAdapter().getCursor(), Sholi.Item.CHECKED);
+                updateAllItems(Checkable.CHECKED);
                 return true;
             case R.id.action_uncheck_all:
-                updateAllItems(getAdapter().getCursor(), Sholi.Item.UNCHECKED);
+                updateAllItems(Checkable.UNCHECKED);
                 return true;
             case R.id.action_remove_checked:
-                updateAllItems(getAdapter().getCursor(), Sholi.Item.OFF_LIST, Sholi.Item.CHECKED);
+                updateAllItems(Checkable.OFF_LIST, Checkable.CHECKED);
                 return true;
             case R.id.action_empty:
-                updateAllItems(getAdapter().getCursor(), Sholi.Item.OFF_LIST);
+                updateAllItems(Checkable.OFF_LIST);
                 return true;
             case R.id.action_edit:
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -75,71 +77,49 @@ public class CheckingFragment extends AbstractListFragment {
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        StringBuilder buffer = new StringBuilder();
-        String[] args = new String[] {
-                String.valueOf(Sholi.Item.CHECKED),
-                String.valueOf(Sholi.Item.UNCHECKED) };
-
-        buffer.append(Sholi.Item.KEY_STATUS);
-        buffer.append("=? OR ");
-        buffer.append(Sholi.Item.KEY_STATUS);
-        buffer.append("=?");
-
-        return new CursorLoader(getActivity(), Sholi.Item.CONTENT_URI,
-                PROJECTION, buffer.toString(), args, ORDER);
+    protected LazyList<Item> createList(Context context) {
+        QueryBuilder builder = getSession().getItemDao().queryBuilder();
+        builder.where(builder.or(ItemDao.Properties.Status.eq(Checkable.CHECKED),
+                ItemDao.Properties.Status.eq(Checkable.UNCHECKED)));
+        builder.orderAsc(ItemDao.Properties.Name);
+        return builder.listLazy();
     }
 
     @Override
-    protected void updateItem(Cursor c, Uri uri) {
-        ContentValues values = new ContentValues();
-        c.moveToFirst();
-        switch (c.getInt(c.getColumnIndex(Sholi.Item.KEY_STATUS))) {
-            case Sholi.Item.OFF_LIST:
+    protected void updateItem(Item item) {
+        switch (item.getStatus()) {
+            case Checkable.OFF_LIST:
                 // Should not happen.
                 break;
-            case Sholi.Item.UNCHECKED:
-                values.put(Sholi.Item.KEY_STATUS, Sholi.Item.CHECKED);
+            case Checkable.UNCHECKED:
+                item.setStatus(Checkable.CHECKED);
                 break;
-            case Sholi.Item.CHECKED:
-                values.put(Sholi.Item.KEY_STATUS, Sholi.Item.UNCHECKED);
+            case Checkable.CHECKED:
+                item.setStatus(Checkable.UNCHECKED);
                 break;
         }
 
-        if (values != null) {
-            getContent().update(uri, values, null, null);
-            getAdapter().notifyDataSetChanged();
-        }
+        getSession().getItemDao().update(item);
+        getAdapter().notifyDataSetChanged();
     }
 
-    protected void updateAllItems(Cursor c, int status) {
-        updateAllItems(c, status, -1);
+    protected void updateAllItems(int status) {
+        updateAllItems(status, -1);
     }
 
-    protected void updateAllItems(Cursor c, int status, int prev_status) {
-        if (c.getCount() > 0)
-        {
-            StringBuilder buffer = new StringBuilder();
-            ContentValues values = new ContentValues();
-            boolean is_head = true;
+    protected void updateAllItems(final int status, final int prev_status) {
+        List<Item> items = new ArrayList<Item>();
+        Item item = null;
 
-            values.put(Sholi.Item.KEY_STATUS, status);
-
-            buffer.append("_ID IN (");
-            c.moveToPosition(-1);
-            while (c.moveToNext()) {
-                if (prev_status == -1
-                        || c.getInt(c.getColumnIndex(Sholi.Item.KEY_STATUS)) == prev_status) {
-                    if (!is_head)
-                        buffer.append(",");
-                    buffer.append(c.getLong(0));
-                    is_head = false;
-                }
+        for (int i = 0; i < getAdapter().getCount(); ++i) {
+            item = (Item) getAdapter().getItem(i);
+            if (prev_status == -1 || item.getStatus() == prev_status) {
+                item.setStatus(status);
+                items.add(item);
             }
-            buffer.append(")");
-
-            getContent().update(Sholi.Item.CONTENT_URI, values, buffer.toString(), null);
-            getAdapter().notifyDataSetChanged();
         }
+
+        getSession().getItemDao().updateInTx(items);
+        getAdapter().setLazyList(createList(getActivity()));
     }
 }

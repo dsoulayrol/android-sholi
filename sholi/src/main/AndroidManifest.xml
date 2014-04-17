@@ -31,9 +31,6 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <provider
-            android:name=".data.Provider"
-            android:authorities="name.soulayrol.rhaa.sholi.provider" />
 
         <activity
             android:name="name.soulayrol.rhaa.sholi.MainActivity"

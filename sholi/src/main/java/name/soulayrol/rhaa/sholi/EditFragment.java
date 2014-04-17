@@ -1,6 +1,6 @@
 /*
- * ShoLi, a simple tool to produce short (shopping) lists.
- * Copyright (C) 2013  David Soulayrol
+ * ShoLi, a simple tool to produce short lists.
+ * Copyright (C) 2013,2014  David Soulayrol
  *
  * ShoLi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,11 +18,7 @@
 package name.soulayrol.rhaa.sholi;
 
 import android.app.ActionBar;
-import android.content.ContentValues;
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -38,7 +34,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import name.soulayrol.rhaa.sholi.data.Sholi;
+import de.greenrobot.dao.query.LazyList;
+import de.greenrobot.dao.query.QueryBuilder;
+import name.soulayrol.rhaa.sholi.data.model.Checkable;
+import name.soulayrol.rhaa.sholi.data.model.Item;
+import name.soulayrol.rhaa.sholi.data.model.ItemDao;
 
 
 public class EditFragment extends AbstractListFragment {
@@ -70,17 +70,16 @@ public class EditFragment extends AbstractListFragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                Bundle b = new Bundle();
-                b.putString(BUNDLE_KEY_FILTER, editable.toString());
-                getLoaderManager().restartLoader(0, b, EditFragment.this);
+                getAdapter().setLazyList(createList(getActivity()));
             }
         });
 
         _newItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (addItem(_newItemEdit.getText().toString().trim()) != null)
+                if (addItem(_newItemEdit.getText().toString().trim()) != 0)
                     _newItemEdit.setText("");
+                getAdapter().setLazyList(createList(getActivity()));
             }
         });
 
@@ -103,69 +102,52 @@ public class EditFragment extends AbstractListFragment {
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        StringBuilder buffer = null;
-        String[] args = null;
-        String constraint = null;
+    protected LazyList<Item> createList(Context context) {
+        QueryBuilder builder = getSession().getItemDao().queryBuilder();
+        Editable editable = null;
+        LazyList<Item> list = null;
 
-        if (bundle != null)
-            constraint = bundle.getString(BUNDLE_KEY_FILTER);
-
-        if (constraint != null) {
-            buffer = new StringBuilder();
-            buffer.append("UPPER(");
-            buffer.append(Sholi.Item.KEY_NAME);
-            buffer.append(") GLOB ?");
-            args = new String[] { "*" + constraint.toUpperCase() + "*" };
+        if (_newItemEdit != null) {
+            editable = _newItemEdit.getEditableText();
+            String constraint = editable.toString().trim();
+            if (constraint != null && !constraint.isEmpty()) {
+                builder.where(ItemDao.Properties.Name.like(constraint));
+            }
         }
 
-        return new CursorLoader(getActivity(), Sholi.Item.CONTENT_URI,
-                PROJECTION, buffer == null ? null : buffer.toString(), args, ORDER);
+        list = builder.orderAsc(ItemDao.Properties.Name).listLazy();
+
+        if (editable != null && _newItemButton != null) {
+            int visibility = _newItemButton.getVisibility();
+            boolean doShow = list.size() == 0 && editable.length() > 0;
+            // Only call setVisibility when necessary.
+            if (visibility == View.GONE && doShow)
+                _newItemButton.setVisibility(View.VISIBLE);
+            else if (visibility == View.VISIBLE && !doShow)
+                _newItemButton.setVisibility(View.GONE);
+        }
+
+        return list;
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        super.onLoadFinished(cursorLoader, cursor);
-
-        Editable editable = _newItemEdit.getEditableText();
-        int visibility = _newItemButton.getVisibility();
-        boolean doShow = cursor.getCount() == 0 && editable.length() > 0;
-
-        // Only call setVisibility when necessary.
-        if (visibility == View.GONE && doShow)
-            _newItemButton.setVisibility(View.VISIBLE);
-        else if (visibility == View.VISIBLE && !doShow)
-            _newItemButton.setVisibility(View.GONE);
-    }
-
-    @Override
-    protected void updateItem(Cursor c, Uri uri) {
-        ContentValues values = new ContentValues();
-        c.moveToFirst();
-        switch (c.getInt(c.getColumnIndex(Sholi.Item.KEY_STATUS))) {
-            case Sholi.Item.OFF_LIST:
-                values.put(Sholi.Item.KEY_STATUS, Sholi.Item.UNCHECKED);
+    protected void updateItem(Item item) {
+        switch (item.getStatus()) {
+            case Checkable.OFF_LIST:
+                item.setStatus(Checkable.UNCHECKED);
                 break;
-            case Sholi.Item.UNCHECKED:
-            case Sholi.Item.CHECKED:
-                values.put(Sholi.Item.KEY_STATUS, Sholi.Item.OFF_LIST);
+            case Checkable.UNCHECKED:
+            case Checkable.CHECKED:
+                item.setStatus(Checkable.OFF_LIST);
                 break;
         }
 
-        if (values != null) {
-            getContent().update(uri, values, null, null);
-            getAdapter().notifyDataSetChanged();
-        }
+        getSession().getItemDao().update(item);
+        getAdapter().notifyDataSetChanged();
     }
 
-    private Uri addItem(String name) {
-        Uri uri;
-        ContentValues values = new ContentValues();
-
-        values.put(Sholi.Item.KEY_NAME, name);
-        values.put(Sholi.Item.KEY_STATUS, Sholi.Item.UNCHECKED);
-        uri = getContent().insert(Sholi.Item.CONTENT_URI, values);
-        return uri;
+    private long addItem(String name) {
+        return getSession().getItemDao().insert(new Item(null, name, Checkable.UNCHECKED));
     }
 
     private class SelectionModeHandler implements ListView.MultiChoiceModeListener {
@@ -203,19 +185,14 @@ public class EditFragment extends AbstractListFragment {
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
             case R.id.action_erase:
-                long[] ids = getListView().getCheckedItemIds();
-                int count = getListView().getCheckedItemCount();
-                StringBuilder buffer = new StringBuilder();
-                buffer.append("_ID IN (");
-
-                for (int i = 0; i < count; ++i) {
-                    buffer.append(ids[i]);
-                    if (i < count - 1)
-                        buffer.append(",");
-                }
-                buffer.append(")");
-                getContent().delete(Sholi.Item.CONTENT_URI, buffer.toString(), null);
-                mode.finish();
+                getSession().runInTx(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (long id : getListView().getCheckedItemIds())
+                            getSession().getItemDao().deleteByKey(id);
+                    }
+                });
+                getAdapter().setLazyList(createList(getActivity()));
                 break;
             }
             return true;

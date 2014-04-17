@@ -1,5 +1,5 @@
 /*
- * ShoLi, a simple tool to produce short (shopping) lists.
+ * ShoLi, a simple tool to produce short lists.
  *
  * Copyright (C) 2014  David Soulayrol
  *
@@ -19,8 +19,6 @@
 package name.soulayrol.rhaa.sholi;
 
 import android.app.DialogFragment;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -38,10 +36,13 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import name.soulayrol.rhaa.sholi.data.Operations;
-import name.soulayrol.rhaa.sholi.data.Sholi;
+import name.soulayrol.rhaa.sholi.data.model.DaoSession;
+import name.soulayrol.rhaa.sholi.data.model.Item;
 
 
 public class ImportFragment extends DialogFragment {
+
+    private static final String TAG = "Import";
 
     private static final String ARG_DATA = "data";
 
@@ -112,6 +113,12 @@ public class ImportFragment extends DialogFragment {
             _taskRef.get().startReporting();
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        getActivity().getFragmentManager().findFragmentById(R.id.container).onResume();
+    }
+
     private class ImportResult {
         private int imported;
         private int ignored;
@@ -135,8 +142,6 @@ public class ImportFragment extends DialogFragment {
 
     /**
      * Handle a serialized list.
-     *
-     * The import task uses no transaction: it parses and inserts items with best effort.
      */
     private class ImportTask extends AsyncTask<Void, Integer, ImportResult> {
 
@@ -156,39 +161,40 @@ public class ImportFragment extends DialogFragment {
 
         @Override
         protected ImportResult doInBackground(Void... params) {
-            ContentResolver content = getActivity().getContentResolver();
-            List<Operations.TransientItem> items = Operations.deserialize(_data);
-            ImportResult result = new ImportResult();
+            final ImportResult result = new ImportResult();
 
             try {
                 _fragmentView.acquire();
             } catch (InterruptedException e) {
                 // We can safely ignore this.
-                Log.w(Sholi.TAG, e);
+                Log.w(TAG, e);
             }
 
+            final DaoSession session = Operations.openSession(getActivity());
+            final List<Item> items = Operations.deserialize(_data);
+            final List<Item> dbItems = session.getItemDao().loadAll();
             _dataSize = items.size();
             publishProgress(0);
 
-            for (Operations.TransientItem item: items) {
-                ContentValues values = new ContentValues();
-
-                values.put(Sholi.Item.KEY_NAME, item.name);
-                values.put(Sholi.Item.KEY_STATUS, item.status);
-                if (content.insert(Sholi.Item.CONTENT_URI, values) != null)
-                    result.addImported();
-                else {
-                    if (_policy.equals("merge")) {
-                        content.update(Sholi.Item.CONTENT_URI, values,
-                                Sholi.Item.KEY_NAME + " = ?", new String[] { item.name } );
-                        result.addImported();
+            session.runInTx(new Runnable() {
+                @Override
+                public void run() {
+                    for (Item item: items) {
+                        if (_policy.equals("merge")) {
+                            session.getItemDao().insertOrReplace(item);
+                            result.addImported();
+                        } else {
+                            if (!contains(item, dbItems)) {
+                                session.getItemDao().insert(item);
+                                result.addImported();
+                            }
+                            else
+                                result.addIgnored();
+                        }
+                        publishProgress(1);
                     }
-                    else
-                        result.addIgnored();
                 }
-
-                publishProgress(1);
-            }
+            });
 
             return result;
         }
@@ -219,6 +225,13 @@ public class ImportFragment extends DialogFragment {
 
             _button.setEnabled(true);
             _summary.setText(builder.toString());
+        }
+
+        private boolean contains(Item item, List<Item> items) {
+            for (Item i: items)
+                if (i.getName().equals(item.getName()))
+                    return true;
+            return false;
         }
     }
 }
