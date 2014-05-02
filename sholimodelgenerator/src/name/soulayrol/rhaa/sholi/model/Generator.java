@@ -41,11 +41,14 @@ public class Generator {
     }
 
     private static void addItem(Schema schema) {
+        // Table and column names are overriden to match the ones set
+        // by the Provider used in previous version.
         Entity item = schema.addEntity("Item");
+        item.setTableName("items");
         item.implementsInterface("name.soulayrol.rhaa.sholi.data.model.PersistentObject");
         item.implementsInterface("name.soulayrol.rhaa.sholi.data.model.Checkable");
         item.addIdProperty().autoincrement();
-        item.addStringProperty("name").unique().notNull();
-        item.addIntProperty("status");
+        item.addStringProperty("name").columnName("item").unique().notNull();
+        item.addIntProperty("status").columnName("status");
     }
 }

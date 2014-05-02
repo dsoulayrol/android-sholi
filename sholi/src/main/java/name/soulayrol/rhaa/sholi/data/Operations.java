@@ -20,6 +20,7 @@ package name.soulayrol.rhaa.sholi.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,10 @@ import name.soulayrol.rhaa.sholi.data.model.Item;
 
 public class Operations {
 
+    private static final String TAG = "db";
+
+    private static final String DATABASE_NAME = "sholi.db";
+
     // TODO: This is arbitrary and should match the maximum database item's name field
     private static final int MAX_SERIALIZED_LENGTH = 256;
 
@@ -41,7 +46,7 @@ public class Operations {
 
     public static DaoSession openSession(Context context) {
         if (_database == null) {
-            DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, "sholi-db", null);
+            DaoMaster.OpenHelper helper = new RegularOpenHelper(context);
             _database = helper.getWritableDatabase();
         }
         DaoMaster daoMaster = new DaoMaster(_database);
@@ -83,4 +88,19 @@ public class Operations {
 
         return items;
     }
+
+    public static class RegularOpenHelper extends DaoMaster.OpenHelper {
+        public RegularOpenHelper(Context context) {
+            super(context, DATABASE_NAME, null);
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            if (oldVersion == 1 && newVersion == 2)
+                Log.i(TAG, "Upgraded schema to version 2. Introducing greenDAO.");
+            else
+                Log.w(TAG, "Unsupported upgrade from version " + oldVersion + " to " + newVersion);
+        }
+    }
+
 }
