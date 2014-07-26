@@ -104,29 +104,39 @@ public class EditFragment extends AbstractListFragment {
     @Override
     protected LazyList<Item> createList(Context context) {
         QueryBuilder builder = getSession().getItemDao().queryBuilder();
-        Editable editable = null;
-        LazyList<Item> list = null;
+        String constraint = null;
+        boolean doShow = false;
+        LazyList<Item> list;
 
+        // First build the list to be displayed with loose search.
         if (_newItemEdit != null) {
-            editable = _newItemEdit.getEditableText();
-            String constraint = editable.toString().trim();
-            if (constraint != null && !constraint.isEmpty()) {
-                builder.where(ItemDao.Properties.Name.like(constraint));
+            constraint = _newItemEdit.getEditableText().toString().trim();
+            if (constraint != null && !constraint.isEmpty())
+                builder.where(ItemDao.Properties.Name.like('%' + constraint + '%'));
+        }
+        list = builder.orderAsc(ItemDao.Properties.Name).listLazy();
+
+        // Then check exact equality if necessary. Eventually make a new search.
+        if (constraint != null && !constraint.isEmpty()) {
+            if (list.isEmpty())
+                doShow = true;
+            if (list.size() == 1)
+                doShow = !list.get(0).getName().equals(constraint);
+            else if (list.size() > 1) {
+                builder = getSession().getItemDao().queryBuilder();
+                doShow = builder.where(ItemDao.Properties.Name.eq(constraint))
+                        .buildCount().count() == 0;
             }
         }
 
-        list = builder.orderAsc(ItemDao.Properties.Name).listLazy();
-
-        if (editable != null && _newItemButton != null) {
+        if (_newItemButton != null) {
             int visibility = _newItemButton.getVisibility();
-            boolean doShow = list.size() == 0 && editable.length() > 0;
             // Only call setVisibility when necessary.
             if (visibility == View.GONE && doShow)
                 _newItemButton.setVisibility(View.VISIBLE);
             else if (visibility == View.VISIBLE && !doShow)
                 _newItemButton.setVisibility(View.GONE);
         }
-
         return list;
     }
 
