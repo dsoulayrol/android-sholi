@@ -80,11 +80,11 @@ public abstract class AbstractListFragment extends ListFragment {
         updateItem((Item) _adapter.getItem(position));
     }
 
-    protected DaoSession getSession() {
+    public DaoSession getSession() {
         return _session;
     }
 
-    protected AbstractLazyListAdapter getAdapter() {
+    public AbstractLazyListAdapter getAdapter() {
         return _adapter;
     }
 

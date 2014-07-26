@@ -20,18 +20,20 @@ package name.soulayrol.rhaa.sholi;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.widget.ListView;
 
 import de.greenrobot.dao.query.LazyList;
 import de.greenrobot.dao.query.QueryBuilder;
+import name.soulayrol.rhaa.sholi.data.Action;
 import name.soulayrol.rhaa.sholi.data.model.Checkable;
 import name.soulayrol.rhaa.sholi.data.model.Item;
 import name.soulayrol.rhaa.sholi.data.model.ItemDao;
@@ -39,11 +41,31 @@ import name.soulayrol.rhaa.sholi.data.model.ItemDao;
 
 public class CheckingFragment extends AbstractListFragment {
 
+    private ListView _listView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_checking, container, false);
+        final GestureDetector detector = new GestureDetector(getActivity(), new GestureListener());
+        View view = inflater.inflate(R.layout.fragment_checking, container, false);
+        registerForContextMenu(view);
 
+        // It is too early to call getListView here, so we fetch the view from its ID.
+        _listView = (ListView) view.findViewById(android.R.id.list);
+        _listView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return detector.onTouchEvent(event);
+            }
+        });
+        return view;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.checking_context, menu);
     }
 
     @Override
@@ -52,25 +74,35 @@ public class CheckingFragment extends AbstractListFragment {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_check_all:
-                updateAllItems(Checkable.CHECKED);
+                doAction(new Action.CheckAll());
                 return true;
             case R.id.action_uncheck_all:
-                updateAllItems(Checkable.UNCHECKED);
+                doAction(new Action.UncheckAll());
                 return true;
             case R.id.action_remove_checked:
-                updateAllItems(Checkable.OFF_LIST, Checkable.CHECKED);
+                doAction(new Action.RemoveChecked());
                 return true;
             case R.id.action_empty:
-                updateAllItems(Checkable.OFF_LIST);
+                doAction(new Action.Empty());
                 return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.action_edit:
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.container, new EditFragment());
                 transaction.addToBackStack(null);
                 transaction.commit();
+                return true;
+            case R.id.action_menu:
+                getActivity().openContextMenu(_listView);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -103,23 +135,26 @@ public class CheckingFragment extends AbstractListFragment {
         getAdapter().notifyDataSetChanged();
     }
 
-    protected void updateAllItems(int status) {
-        updateAllItems(status, -1);
+    private void doAction(Action action) {
+        if (action.proceed(this))
+            getAdapter().setLazyList(createList(getActivity()));
     }
 
-    protected void updateAllItems(final int status, final int prev_status) {
-        List<Item> items = new ArrayList<Item>();
-        Item item = null;
-
-        for (int i = 0; i < getAdapter().getCount(); ++i) {
-            item = (Item) getAdapter().getItem(i);
-            if (prev_status == -1 || item.getStatus() == prev_status) {
-                item.setStatus(status);
-                items.add(item);
-            }
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public void onLongPress(MotionEvent e) {
+            CheckingFragment.this.getActivity().openContextMenu(_listView);
         }
 
-        getSession().getItemDao().updateInTx(items);
-        getAdapter().setLazyList(createList(getActivity()));
+        @Override
+        public boolean onFling(MotionEvent start, MotionEvent end,
+                float velocityX, float velocityY) {
+            // TODO: identify the direction
+            // TODO: Check the event large enough
+            //float range = end.getAxisValue(MotionEvent.AXIS_X) - start.getAxisValue(MotionEvent.AXIS_X);
+            if (end.getEventTime() - end.getDownTime() < 1000)
+                doAction(new Action.RemoveChecked());
+            return true;
+        }
     }
 }

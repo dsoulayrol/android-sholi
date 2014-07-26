@@ -1,7 +1,7 @@
 <!--
  ShoLi, a simple tool to produce short (shopping) lists.
 
- Copyright (C) 2013,2014  David Soulayrol
+ Copyright (C) 2014  David Soulayrol
 
  ShoLi is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -20,16 +20,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity" >
 
-    <item android:id="@+id/action_edit"
-        android:icon="@android:drawable/ic_menu_edit"
-        android:title="@string/action_checking_edit"
-        android:orderInCategory="1"
-        android:showAsAction="ifRoom" />
+    <item android:id="@+id/action_check_all"
+        android:title="@string/action_checking_check_all" />
 
-    <item android:id="@+id/action_menu"
-        android:icon="@android:drawable/ic_menu_more"
-        android:title="@string/action_checking_menu"
-        android:orderInCategory="10"
-        android:showAsAction="never" />
+    <item android:id="@+id/action_uncheck_all"
+        android:title="@string/action_checking_uncheck_all" />
+
+    <item android:id="@+id/action_remove_checked"
+        android:title="@string/action_checking_remove_checked" />
+
+    <item android:id="@+id/action_empty"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/action_checking_empty" />
 
 </menu>
