@@ -49,8 +49,6 @@ public class EditFragment extends AbstractListFragment {
 
     private TextView _newItemEdit;
 
-    private boolean _editMode = true;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -181,8 +179,7 @@ public class EditFragment extends AbstractListFragment {
             MenuInflater inflater = getActivity().getMenuInflater();
             inflater.inflate(R.menu.list_select, menu);
             mode.setTitle(R.string.fragment_edit_selection_mode_title);
-            if (_editMode)
-                _newItemEdit.setVisibility(View.GONE);
+            _newItemEdit.setVisibility(View.GONE);
             return true;
         }
 
@@ -210,8 +207,7 @@ public class EditFragment extends AbstractListFragment {
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
-            if (_editMode)
-                _newItemEdit.setVisibility(View.VISIBLE);
+            _newItemEdit.setVisibility(View.VISIBLE);
         }
     }
 }
