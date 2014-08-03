@@ -11,15 +11,22 @@ The fewer, the better.
 * A layout locked in portrait mode to ease handling when you have a can of peas in the other hand.
 * No special permission requirement at all.
 
-See the CHANGES file for a list of prominent updates with each version.
+However, useful features are also present for power users, like gestures or database export and import. The complete application documentation is provided [in this document](doc/manual.md).
 
-The application usage is detailed [in this document](doc/usage.md). For information related to data management, see [this document](doc/exports.md)
+See also the CHANGES file for a list of prominent updates with each version.
 
 ## Compatibility
 
 Because this application is aimed at being available when doing shopping, it is designed for small devices. It thus provides no optimisation for tablet screens for example.
 
 Also, for the sake of simplicity, ShoLi is written for Android 4.0+. Part of writing this software was the pleasure to discover the latest programmable interfaces, and I did not want to bother with the android compatibility library or external tools like ActionBarSherlock. Feel free to port it onto Android 2.2 or 2.3 if you really want to.
+
+## Installation
+
+ShoLi is free software (see below) and you are welcome to compile and distribute it from [its sources](https://github.com/dsoulayrol/android-sholi). If you prefer binary distributions, you can download it from the following application stores:
+
+* [F-Droid](https://f-droid.org/repository/browse/?fdid=name.soulayrol.rhaa.sholi)
+* [Google Play](https://play.google.com/store/apps/details?id=name.soulayrol.rhaa.sholi)
 
 ## License
 
