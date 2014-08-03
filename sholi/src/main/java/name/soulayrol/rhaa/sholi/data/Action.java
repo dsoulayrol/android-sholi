@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import name.soulayrol.rhaa.sholi.CheckingFragment;
+import name.soulayrol.rhaa.sholi.R;
 import name.soulayrol.rhaa.sholi.data.model.Checkable;
 import name.soulayrol.rhaa.sholi.data.model.Item;
 
@@ -30,8 +31,12 @@ public abstract class Action {
 
         @Override
         public boolean proceed(CheckingFragment fragment) {
-            updateAllItems(fragment, Checkable.CHECKED);
-            return true;
+            int items = updateAllItems(fragment, Checkable.CHECKED);
+            if (items != 0) {
+                _description = fragment.getResources().getQuantityString(
+                        R.plurals.action_check, items, items);
+            }
+            return items != 0;
         }
     }
 
@@ -39,8 +44,12 @@ public abstract class Action {
 
         @Override
         public boolean proceed(CheckingFragment fragment) {
-            updateAllItems(fragment, Checkable.UNCHECKED);
-            return true;
+            int items = updateAllItems(fragment, Checkable.UNCHECKED);
+            if (items != 0) {
+                _description = fragment.getResources().getQuantityString(
+                        R.plurals.action_uncheck, items, items);
+            }
+            return items != 0;
         }
     }
 
@@ -48,8 +57,12 @@ public abstract class Action {
 
         @Override
         public boolean proceed(CheckingFragment fragment) {
-            updateAllItems(fragment, Checkable.OFF_LIST, Checkable.CHECKED);
-            return true;
+            int items = updateAllItems(fragment, Checkable.OFF_LIST, Checkable.CHECKED);
+            if (items != 0) {
+                _description = fragment.getResources().getQuantityString(
+                        R.plurals.action_remove, items, items);
+            }
+            return items != 0;
         }
     }
 
@@ -57,18 +70,28 @@ public abstract class Action {
 
         @Override
         public boolean proceed(CheckingFragment fragment) {
-            updateAllItems(fragment, Checkable.OFF_LIST);
-            return true;
+            int items = updateAllItems(fragment, Checkable.OFF_LIST);
+            if (items != 0) {
+                _description = fragment.getResources().getQuantityString(
+                        R.plurals.action_remove, items, items);
+            }
+            return items != 0;
         }
     }
 
+    protected String _description;
+
     public abstract boolean proceed(CheckingFragment fragment);
 
-    protected void updateAllItems(CheckingFragment fragment, int status) {
-        updateAllItems(fragment, status, -1);
+    public String getDescription() {
+        return _description;
     }
 
-    protected void updateAllItems(CheckingFragment fragment, final int status, final int prev_status) {
+    protected int updateAllItems(CheckingFragment fragment, int status) {
+        return updateAllItems(fragment, status, -1);
+    }
+
+    protected int updateAllItems(CheckingFragment fragment, final int status, final int prev_status) {
         AbstractLazyListAdapter adapter = fragment.getAdapter();
         List<Item> items = new ArrayList<Item>();
         Item item;
@@ -82,5 +105,6 @@ public abstract class Action {
         }
 
         fragment.getSession().getItemDao().updateInTx(items);
+        return items.size();
     }
 }

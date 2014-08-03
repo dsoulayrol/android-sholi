@@ -94,6 +94,21 @@
         <item quantity="one">, %d item ignored.</item>
         <item quantity="other">, %d items ignored.</item>
     </plurals>
+    <plurals name="action_check">
+        <item quantity="zero">No item was checked</item>
+        <item quantity="one">Checked %d item</item>
+        <item quantity="other">Checked %d items</item>
+    </plurals>
+    <plurals name="action_uncheck">
+        <item quantity="zero">No item was unchecked</item>
+        <item quantity="one">Unchecked %d item</item>
+        <item quantity="other">Unchecked %d items</item>
+    </plurals>
+    <plurals name="action_remove">
+        <item quantity="zero">No item was removed</item>
+        <item quantity="one">Removed %d item</item>
+        <item quantity="other">Removed %d items</item>
+    </plurals>
 
     <plurals name="selectedItems">
         <item quantity="one">One item selected.</item>

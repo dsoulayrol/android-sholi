@@ -21,15 +21,14 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import de.greenrobot.dao.query.LazyList;
 import de.greenrobot.dao.query.QueryBuilder;
@@ -37,27 +36,27 @@ import name.soulayrol.rhaa.sholi.data.Action;
 import name.soulayrol.rhaa.sholi.data.model.Checkable;
 import name.soulayrol.rhaa.sholi.data.model.Item;
 import name.soulayrol.rhaa.sholi.data.model.ItemDao;
+import name.soulayrol.rhaa.widget.InterceptorFrameLayout;
 
 
-public class CheckingFragment extends AbstractListFragment {
+public class CheckingFragment extends AbstractListFragment implements InterceptorFrameLayout.Listener{
 
     private ListView _listView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final GestureDetector detector = new GestureDetector(getActivity(), new GestureListener());
         View view = inflater.inflate(R.layout.fragment_checking, container, false);
         registerForContextMenu(view);
 
         // It is too early to call getListView here, so we fetch the view from its ID.
         _listView = (ListView) view.findViewById(android.R.id.list);
-        _listView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return detector.onTouchEvent(event);
-            }
-        });
+
+        InterceptorFrameLayout interceptor = (InterceptorFrameLayout) view;
+        interceptor.configure(InterceptorFrameLayout.Gesture.SINGLE_TAP, null);
+        interceptor.configure(InterceptorFrameLayout.Gesture.FLING_TO_RIGHT, new Action.RemoveChecked());
+        interceptor.startInterception(this);
+
         return view;
     }
 
@@ -77,16 +76,16 @@ public class CheckingFragment extends AbstractListFragment {
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_check_all:
-                doAction(new Action.CheckAll());
+                execute(new Action.CheckAll());
                 return true;
             case R.id.action_uncheck_all:
-                doAction(new Action.UncheckAll());
+                execute(new Action.UncheckAll());
                 return true;
             case R.id.action_remove_checked:
-                doAction(new Action.RemoveChecked());
+                execute(new Action.RemoveChecked());
                 return true;
             case R.id.action_empty:
-                doAction(new Action.Empty());
+                execute(new Action.Empty());
                 return true;
         }
         return super.onContextItemSelected(item);
@@ -135,26 +134,15 @@ public class CheckingFragment extends AbstractListFragment {
         getAdapter().notifyDataSetChanged();
     }
 
-    private void doAction(Action action) {
-        if (action.proceed(this))
+    @Override
+    public void execute(Action action) {
+        if (action == null)
+            getActivity().openContextMenu(_listView);
+        else if (action.proceed(this)) {
+            String description = action.getDescription();
             getAdapter().setLazyList(createList(getActivity()));
-    }
-
-    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
-        @Override
-        public void onLongPress(MotionEvent e) {
-            CheckingFragment.this.getActivity().openContextMenu(_listView);
-        }
-
-        @Override
-        public boolean onFling(MotionEvent start, MotionEvent end,
-                float velocityX, float velocityY) {
-            // TODO: identify the direction
-            // TODO: Check the event large enough
-            //float range = end.getAxisValue(MotionEvent.AXIS_X) - start.getAxisValue(MotionEvent.AXIS_X);
-            if (end.getEventTime() - end.getDownTime() < 1000)
-                doAction(new Action.RemoveChecked());
-            return true;
+            if (description != null)
+            Toast.makeText(getActivity(), description, Toast.LENGTH_SHORT).show();
         }
     }
 }
