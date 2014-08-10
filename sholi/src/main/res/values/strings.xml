@@ -46,9 +46,21 @@
 
     <!-- Settings -->
     <string name="activity_settings_title">Settings</string>
+    <string name="settings_category_checking">Checking</string>
+    <string name="settings_category_others">Others</string>
+    <string name="settings_checking_fling_to_left_action">Action on swipe to left</string>
+    <string name="settings_checking_fling_to_right_action">Action on swipe to right</string>
+    <string name="settings_checking_action_dlg_title">Choose action</string>
     <string name="settings_items_size_title">List items text size</string>
     <string name="settings_import_title">Merge policy on import</string>
     <string name="settings_import_dlg_title">On import</string>
+    <string-array name="settings_checking_actions_choices">
+        <item>None</item>
+        <item>Check all</item>
+        <item>Uncheck all</item>
+        <item>Remove checked items</item>
+        <item>Remove all</item>
+    </string-array>
     <string-array name="settings_import_choices">
         <item>Keep items current status</item>
         <item>Apply imported status</item>

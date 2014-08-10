@@ -78,6 +78,10 @@ public class InterceptorFrameLayout extends FrameLayout {
         _actions.put(gesture, action);
     }
 
+    public void ignore(Gesture gesture) {
+        _actions.remove(gesture);
+    }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
         if (_listener == null)
@@ -152,9 +156,9 @@ public class InterceptorFrameLayout extends FrameLayout {
             int dy = (int) (event.getY(i) - _startY);
             if (Math.abs(dx) < _touchSlope && Math.abs(dy) < _touchSlope) {
                 execute(Gesture.SINGLE_TAP);
-            } else if (Math.abs(dy) < _touchSlope) {
+            } else if (Math.abs(dy) < Math.abs(dx / 5)) {
                 _vTracker.computeCurrentVelocity(1000);
-                if (_vTracker.getXVelocity() > _minFlingVelocity) {
+                if (Math.abs(_vTracker.getXVelocity()) > _minFlingVelocity) {
                     execute((dx < 0)? Gesture.FLING_TO_LEFT: Gesture.FLING_TO_RIGHT);
                 }
             }

@@ -19,7 +19,9 @@ package name.soulayrol.rhaa.sholi;
 
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,9 +41,12 @@ import name.soulayrol.rhaa.sholi.data.model.ItemDao;
 import name.soulayrol.rhaa.widget.InterceptorFrameLayout;
 
 
-public class CheckingFragment extends AbstractListFragment implements InterceptorFrameLayout.Listener{
+public class CheckingFragment extends AbstractListFragment implements
+        InterceptorFrameLayout.Listener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private ListView _listView;
+
+    private InterceptorFrameLayout _interceptor;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,11 +56,16 @@ public class CheckingFragment extends AbstractListFragment implements Intercepto
 
         // It is too early to call getListView here, so we fetch the view from its ID.
         _listView = (ListView) view.findViewById(android.R.id.list);
+        _interceptor = (InterceptorFrameLayout) view;
 
-        InterceptorFrameLayout interceptor = (InterceptorFrameLayout) view;
-        interceptor.configure(InterceptorFrameLayout.Gesture.SINGLE_TAP, null);
-        interceptor.configure(InterceptorFrameLayout.Gesture.FLING_TO_RIGHT, new Action.RemoveChecked());
-        interceptor.startInterception(this);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sharedPref.registerOnSharedPreferenceChangeListener(this);
+
+        configureGesture(InterceptorFrameLayout.Gesture.FLING_TO_LEFT, sharedPref);
+        configureGesture(InterceptorFrameLayout.Gesture.FLING_TO_RIGHT, sharedPref);
+        configureGesture(InterceptorFrameLayout.Gesture.SINGLE_TAP, (String) null);
+
+        _interceptor.startInterception(this);
 
         return view;
     }
@@ -143,6 +153,44 @@ public class CheckingFragment extends AbstractListFragment implements Intercepto
             getAdapter().setLazyList(createList(getActivity()));
             if (description != null)
             Toast.makeText(getActivity(), description, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(SettingsActivity.KEY_CHECKING_FLING_LEFT_ACTION)) {
+            configureGesture(InterceptorFrameLayout.Gesture.FLING_TO_LEFT, sharedPreferences);
+        } else if (key.equals(SettingsActivity.KEY_CHECKING_FLING_RIGHT_ACTION)) {
+            configureGesture(InterceptorFrameLayout.Gesture.FLING_TO_RIGHT, sharedPreferences);
+        }
+    }
+
+    private void configureGesture(InterceptorFrameLayout.Gesture gesture, SharedPreferences sharedPreferences) {
+        String className = null;
+
+        switch (gesture) {
+            case FLING_TO_LEFT:
+                className = sharedPreferences.getString(SettingsActivity.KEY_CHECKING_FLING_LEFT_ACTION,
+                        getResources().getString(
+                                R.string.settings_checking_fling_to_left_default_value));
+                break;
+            case FLING_TO_RIGHT:
+                className = sharedPreferences.getString(SettingsActivity.KEY_CHECKING_FLING_RIGHT_ACTION,
+                        getResources().getString(
+                                R.string.settings_checking_fling_to_right_default_value));
+                break;
+        }
+        configureGesture(gesture, className);
+    }
+
+    private void configureGesture(InterceptorFrameLayout.Gesture gesture, String className) {
+        try {
+            if (className == null)
+                _interceptor.configure(gesture, null);
+            else
+                _interceptor.configure(gesture, (Action) Class.forName(className).newInstance());
+        } catch (Throwable t) {
+            _interceptor.ignore(gesture);
         }
     }
 }

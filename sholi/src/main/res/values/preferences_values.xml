@@ -18,6 +18,16 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
+    <string-array name="settings_checking_actions_values">
+        <item></item>
+        <item>name.soulayrol.rhaa.sholi.data.Action$CheckAll</item>
+        <item>name.soulayrol.rhaa.sholi.data.Action$UncheckAll</item>
+        <item>name.soulayrol.rhaa.sholi.data.Action$RemoveChecked</item>
+        <item>name.soulayrol.rhaa.sholi.data.Action$Empty</item>
+    </string-array>
+    <string name="settings_checking_fling_to_left_default_value"></string>
+    <string name="settings_checking_fling_to_right_default_value">name.soulayrol.rhaa.sholi.data.Action$RemoveChecked</string>
+
     <string-array name="settings_items_size_values">
         <item>15</item>
         <item>18</item>

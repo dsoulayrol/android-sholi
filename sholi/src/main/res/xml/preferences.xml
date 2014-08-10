@@ -18,18 +18,43 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <ListPreference
-        android:key="pref_items_size"
-        android:title="@string/settings_items_size_title"
-        android:dialogTitle="@string/settings_items_size_title"
-        android:entries="@array/settings_items_size_values"
-        android:entryValues="@array/settings_items_size_values"
-        android:defaultValue="@string/settings_items_size_default_value" />
-    <ListPreference
-        android:key="pref_import_merge_policy"
-        android:title="@string/settings_import_title"
-        android:dialogTitle="@string/settings_import_dlg_title"
-        android:entries="@array/settings_import_choices"
-        android:entryValues="@array/setting_import_values"
-        android:defaultValue="@string/setting_import_default_value" />
+
+    <PreferenceCategory
+        android:title="@string/settings_category_checking"
+        android:key="pref_checking">
+        <ListPreference
+            android:key="pref_checking_fling_to_left_action"
+            android:title="@string/settings_checking_fling_to_left_action"
+            android:dialogTitle="@string/settings_checking_action_dlg_title"
+            android:entries="@array/settings_checking_actions_choices"
+            android:entryValues="@array/settings_checking_actions_values"
+            android:defaultValue="@string/settings_checking_fling_to_left_default_value" />
+
+        <ListPreference
+            android:key="pref_checking_fling_to_right_action"
+            android:title="@string/settings_checking_fling_to_right_action"
+            android:dialogTitle="@string/settings_checking_action_dlg_title"
+            android:entries="@array/settings_checking_actions_choices"
+            android:entryValues="@array/settings_checking_actions_values"
+            android:defaultValue="@string/settings_checking_fling_to_right_default_value" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/settings_category_others"
+        android:key="pref_others">
+        <ListPreference
+            android:key="pref_items_size"
+            android:title="@string/settings_items_size_title"
+            android:dialogTitle="@string/settings_items_size_title"
+            android:entries="@array/settings_items_size_values"
+            android:entryValues="@array/settings_items_size_values"
+            android:defaultValue="@string/settings_items_size_default_value" />
+        <ListPreference
+            android:key="pref_import_merge_policy"
+            android:title="@string/settings_import_title"
+            android:dialogTitle="@string/settings_import_dlg_title"
+            android:entries="@array/settings_import_choices"
+            android:entryValues="@array/setting_import_values"
+            android:defaultValue="@string/setting_import_default_value" />
+    </PreferenceCategory>
 </PreferenceScreen>

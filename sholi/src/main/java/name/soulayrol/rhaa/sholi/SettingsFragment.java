@@ -21,7 +21,6 @@ package name.soulayrol.rhaa.sholi;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.ListPreference;
-import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
@@ -46,6 +45,8 @@ public class SettingsFragment extends PreferenceFragment
 
         getPreferenceScreen().getSharedPreferences()
                 .registerOnSharedPreferenceChangeListener(this);
+        updatePreferenceSummary(sharedPreferences, SettingsActivity.KEY_CHECKING_FLING_LEFT_ACTION);
+        updatePreferenceSummary(sharedPreferences, SettingsActivity.KEY_CHECKING_FLING_RIGHT_ACTION);
         updatePreferenceSummary(sharedPreferences, SettingsActivity.KEY_LIST_ITEM_SIZE);
         updatePreferenceSummary(sharedPreferences, SettingsActivity.KEY_IMPORT_MERGE_POLICY);
     }
@@ -64,13 +65,7 @@ public class SettingsFragment extends PreferenceFragment
     }
 
     private void updatePreferenceSummary(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(SettingsActivity.KEY_LIST_ITEM_SIZE)) {
-            Preference p = findPreference(key);
-            p.setSummary(sharedPreferences.getString(key, ""));
-        }
-        else if (key.equals(SettingsActivity.KEY_IMPORT_MERGE_POLICY)) {
-            ListPreference p = (ListPreference) findPreference(key);
-            p.setSummary(p.getEntry());
-        }
+        ListPreference p = (ListPreference) findPreference(key);
+        p.setSummary(p.getEntry());
     }
 }

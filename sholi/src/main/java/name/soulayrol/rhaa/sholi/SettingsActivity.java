@@ -24,6 +24,8 @@ import android.os.Bundle;
 
 public class SettingsActivity extends Activity {
 
+    public static final String KEY_CHECKING_FLING_LEFT_ACTION = "pref_checking_fling_to_left_action";
+    public static final String KEY_CHECKING_FLING_RIGHT_ACTION = "pref_checking_fling_to_right_action";
     public static final String KEY_LIST_ITEM_SIZE = "pref_items_size";
     public static final String KEY_IMPORT_MERGE_POLICY = "pref_import_merge_policy";
 
