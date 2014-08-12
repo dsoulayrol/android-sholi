@@ -17,20 +17,50 @@
  */
 package name.soulayrol.rhaa.sholi.data;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import name.soulayrol.rhaa.sholi.CheckingFragment;
 import name.soulayrol.rhaa.sholi.R;
+import name.soulayrol.rhaa.sholi.SettingsActivity;
 import name.soulayrol.rhaa.sholi.data.model.Checkable;
 import name.soulayrol.rhaa.sholi.data.model.Item;
 
 public abstract class Action {
 
+    public abstract static class TestableAction extends Action {
+
+        protected abstract String getConfigurationKey();
+
+        protected abstract int getMessageId();
+
+        @Override
+        public void proceed(final CheckingFragment fragment) {
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(fragment.getActivity());
+            if (sharedPref.getBoolean(getConfigurationKey(), false)) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(fragment.getActivity());
+                builder.setIcon(android.R.drawable.ic_dialog_alert)
+                        .setMessage(getMessageId())
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                TestableAction.super.proceed(fragment);
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null).create().show();
+            } else
+                super.proceed(fragment);
+        }
+    }
+
     public static class CheckAll extends Action {
 
         @Override
-        public boolean proceed(CheckingFragment fragment) {
+        public boolean doProceed(CheckingFragment fragment) {
             int items = updateAllItems(fragment, Checkable.CHECKED);
             if (items != 0) {
                 _description = fragment.getResources().getQuantityString(
@@ -43,7 +73,7 @@ public abstract class Action {
     public static class UncheckAll extends Action {
 
         @Override
-        public boolean proceed(CheckingFragment fragment) {
+        public boolean doProceed(CheckingFragment fragment) {
             int items = updateAllItems(fragment, Checkable.UNCHECKED);
             if (items != 0) {
                 _description = fragment.getResources().getQuantityString(
@@ -53,10 +83,19 @@ public abstract class Action {
         }
     }
 
-    public static class RemoveChecked extends Action {
+    public static class RemoveChecked extends TestableAction {
 
         @Override
-        public boolean proceed(CheckingFragment fragment) {
+        protected String getConfigurationKey() {
+            return SettingsActivity.KEY_CONFIRM_REMOVE_CHECKED_ACTION;
+        }
+
+        protected int getMessageId() {
+            return R.string.fragment_checking_dlg_confirm_remove_checked;
+        }
+
+        @Override
+        public boolean doProceed(CheckingFragment fragment) {
             int items = updateAllItems(fragment, Checkable.OFF_LIST, Checkable.CHECKED);
             if (items != 0) {
                 _description = fragment.getResources().getQuantityString(
@@ -66,10 +105,20 @@ public abstract class Action {
         }
     }
 
-    public static class Empty extends Action {
+    public static class Empty extends TestableAction {
 
         @Override
-        public boolean proceed(CheckingFragment fragment) {
+        protected String getConfigurationKey() {
+            return SettingsActivity.KEY_CONFIRM_REMOVE_ALL_ACTION;
+        }
+
+        @Override
+        protected int getMessageId() {
+            return R.string.fragment_checking_dlg_confirm_remove_all;
+        }
+
+        @Override
+        public boolean doProceed(CheckingFragment fragment) {
             int items = updateAllItems(fragment, Checkable.OFF_LIST);
             if (items != 0) {
                 _description = fragment.getResources().getQuantityString(
@@ -81,10 +130,21 @@ public abstract class Action {
 
     protected String _description;
 
-    public abstract boolean proceed(CheckingFragment fragment);
+    protected boolean _success;
+
+    public void proceed(final CheckingFragment fragment) {
+        _success = doProceed(fragment);
+        fragment.onActionDone(this);
+    }
+
+    public abstract boolean doProceed(CheckingFragment fragment);
 
     public String getDescription() {
         return _description;
+    }
+
+    public boolean isSuccessful() {
+        return _success;
     }
 
     protected int updateAllItems(CheckingFragment fragment, int status) {

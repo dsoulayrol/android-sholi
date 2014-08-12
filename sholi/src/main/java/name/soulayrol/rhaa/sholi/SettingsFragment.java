@@ -61,7 +61,8 @@ public class SettingsFragment extends PreferenceFragment
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        updatePreferenceSummary(sharedPreferences, key);
+        if (SettingsActivity.isListPreference(key))
+            updatePreferenceSummary(sharedPreferences, key);
     }
 
     private void updatePreferenceSummary(SharedPreferences sharedPreferences, String key) {

@@ -148,11 +148,16 @@ public class CheckingFragment extends AbstractListFragment implements
     public void execute(Action action) {
         if (action == null)
             getActivity().openContextMenu(_listView);
-        else if (action.proceed(this)) {
+        else
+            action.proceed(this);
+    }
+
+    public void onActionDone(Action action) {
+        if (action.isSuccessful()) {
             String description = action.getDescription();
             getAdapter().setLazyList(createList(getActivity()));
             if (description != null)
-            Toast.makeText(getActivity(), description, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), description, Toast.LENGTH_SHORT).show();
         }
     }
 

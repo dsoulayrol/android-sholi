@@ -51,6 +51,8 @@
     <string name="settings_checking_fling_to_left_action">Action on swipe to left</string>
     <string name="settings_checking_fling_to_right_action">Action on swipe to right</string>
     <string name="settings_checking_action_dlg_title">Choose action</string>
+    <string name="settings_checking_confirm_remove_checked_action">Confirm removing checked items</string>
+    <string name="settings_checking_confirm_remove_all_action">Confirm removing all items</string>
     <string name="settings_items_size_title">List items text size</string>
     <string name="settings_import_title">Merge policy on import</string>
     <string name="settings_import_dlg_title">On import</string>
@@ -67,6 +69,8 @@
     </string-array>
 
     <!-- UI elements -->
+    <string name="fragment_checking_dlg_confirm_remove_checked">Do you really want to remove checked items</string>
+    <string name="fragment_checking_dlg_confirm_remove_all">Do you really want to remove all items</string>
     <string name="fragment_checking_list_empty">List is empty</string>
     <string name="fragment_edit_list_empty">No items</string>
     <string name="fragment_edit_add_button">Add</string>

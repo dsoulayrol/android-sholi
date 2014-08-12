@@ -37,6 +37,17 @@
             android:entries="@array/settings_checking_actions_choices"
             android:entryValues="@array/settings_checking_actions_values"
             android:defaultValue="@string/settings_checking_fling_to_right_default_value" />
+
+        <CheckBoxPreference
+            android:key="pref_checking_confirm_remove_checked_action"
+            android:title="@string/settings_checking_confirm_remove_checked_action"
+            android:defaultValue="false" />
+
+        <CheckBoxPreference
+            android:key="pref_checking_confirm_remove_all_action"
+            android:title="@string/settings_checking_confirm_remove_all_action"
+            android:defaultValue="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

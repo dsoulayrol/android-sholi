@@ -26,8 +26,17 @@ public class SettingsActivity extends Activity {
 
     public static final String KEY_CHECKING_FLING_LEFT_ACTION = "pref_checking_fling_to_left_action";
     public static final String KEY_CHECKING_FLING_RIGHT_ACTION = "pref_checking_fling_to_right_action";
+    public static final String KEY_CONFIRM_REMOVE_CHECKED_ACTION = "pref_checking_confirm_remove_checked_action";
+    public static final String KEY_CONFIRM_REMOVE_ALL_ACTION = "pref_checking_confirm_remove_all_action";
     public static final String KEY_LIST_ITEM_SIZE = "pref_items_size";
     public static final String KEY_IMPORT_MERGE_POLICY = "pref_import_merge_policy";
+
+    public static boolean isListPreference(String key) {
+        return KEY_CHECKING_FLING_LEFT_ACTION.equals(key)
+                || KEY_CHECKING_FLING_RIGHT_ACTION.equals(key)
+                || KEY_LIST_ITEM_SIZE.equals(key)
+                || KEY_IMPORT_MERGE_POLICY.equals(key);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
