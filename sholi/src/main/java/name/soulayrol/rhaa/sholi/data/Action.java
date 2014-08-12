@@ -63,7 +63,7 @@ public abstract class Action {
 
         @Override
         public boolean doProceed(CheckingFragment fragment) {
-            int items = updateAllItems(fragment, Checkable.CHECKED);
+            int items = updateItems(fragment, Checkable.CHECKED, Checkable.UNCHECKED);
             if (items != 0) {
                 _description = fragment.getResources().getQuantityString(
                         R.plurals.action_check, items, items);
@@ -76,7 +76,7 @@ public abstract class Action {
 
         @Override
         public boolean doProceed(CheckingFragment fragment) {
-            int items = updateAllItems(fragment, Checkable.UNCHECKED);
+            int items = updateItems(fragment, Checkable.UNCHECKED, Checkable.CHECKED);
             if (items != 0) {
                 _description = fragment.getResources().getQuantityString(
                         R.plurals.action_uncheck, items, items);
@@ -122,7 +122,7 @@ public abstract class Action {
 
         @Override
         public boolean doProceed(CheckingFragment fragment) {
-            int items = updateAllItems(fragment, Checkable.OFF_LIST, Checkable.CHECKED);
+            int items = updateItems(fragment, Checkable.OFF_LIST, Checkable.CHECKED);
             if (items != 0) {
                 _description = fragment.getResources().getQuantityString(
                         R.plurals.action_remove, items, items);
@@ -181,17 +181,17 @@ public abstract class Action {
     }
 
     protected int updateAllItems(CheckingFragment fragment, int status) {
-        return updateAllItems(fragment, status, -1);
+        return updateItems(fragment, status, -1);
     }
 
-    protected int updateAllItems(CheckingFragment fragment, final int status, final int prev_status) {
+    protected int updateItems(CheckingFragment fragment, final int status, final int prevStatus) {
         AbstractLazyListAdapter adapter = fragment.getAdapter();
         List<Item> items = new ArrayList<Item>();
         Item item;
 
         for (int i = 0; i < adapter.getCount(); ++i) {
             item = (Item) adapter.getItem(i);
-            if (prev_status == -1 || item.getStatus() == prev_status) {
+            if (prevStatus == -1 || item.getStatus() == prevStatus) {
                 item.setStatus(status);
                 items.add(item);
             }
