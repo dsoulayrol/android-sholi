@@ -43,6 +43,8 @@
     <string name="dialog_about_title">About ShoLi</string>
     <string name="dialog_erase_all_message">This cannot be undone. Continue?</string>
     <string name="dialog_erase_all_title">Erase All</string>
+    <string name="dialog_checking_confirm_remove_checked">Remove checked items?</string>
+    <string name="dialog_checking_confirm_remove_all">Empty the list?</string>
 
     <!-- Settings -->
     <string name="activity_settings_title">Settings</string>
@@ -71,8 +73,6 @@
     </string-array>
 
     <!-- UI elements -->
-    <string name="fragment_checking_dlg_confirm_remove_checked">Do you really want to remove checked items</string>
-    <string name="fragment_checking_dlg_confirm_remove_all">Do you really want to remove all items</string>
     <string name="fragment_checking_list_empty">List is empty</string>
     <string name="fragment_edit_list_empty">No items</string>
     <string name="fragment_edit_add_button">Add</string>

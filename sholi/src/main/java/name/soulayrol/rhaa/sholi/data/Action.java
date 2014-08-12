@@ -117,7 +117,7 @@ public abstract class Action {
         }
 
         protected int getMessageId() {
-            return R.string.fragment_checking_dlg_confirm_remove_checked;
+            return R.string.dialog_checking_confirm_remove_checked;
         }
 
         @Override
@@ -140,7 +140,7 @@ public abstract class Action {
 
         @Override
         protected int getMessageId() {
-            return R.string.fragment_checking_dlg_confirm_remove_all;
+            return R.string.dialog_checking_confirm_remove_all;
         }
 
         @Override
