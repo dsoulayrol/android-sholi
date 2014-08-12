@@ -13,7 +13,7 @@ The fewer, the better.
 
 However, useful features are also present for power users, like gestures or database export and import. The complete application documentation is provided [in this document](doc/manual.md).
 
-See also the CHANGES file for a list of prominent updates with each version.
+See also the [CHANGES](CHANGES) file for a list of prominent updates with each version.
 
 ## Compatibility
 
