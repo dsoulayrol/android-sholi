@@ -27,9 +27,9 @@
         android:showAsAction="ifRoom" />
 
     <item android:id="@+id/action_menu"
-        android:icon="@android:drawable/ic_menu_more"
+        android:icon="@android:drawable/ic_menu_manage"
         android:title="@string/action_checking_menu"
         android:orderInCategory="10"
-        android:showAsAction="never" />
+        android:showAsAction="ifRoom" />
 
 </menu>
