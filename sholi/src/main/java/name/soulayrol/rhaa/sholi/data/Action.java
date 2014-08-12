@@ -25,11 +25,13 @@ import android.preference.PreferenceManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.dao.query.QueryBuilder;
 import name.soulayrol.rhaa.sholi.CheckingFragment;
 import name.soulayrol.rhaa.sholi.R;
 import name.soulayrol.rhaa.sholi.SettingsActivity;
 import name.soulayrol.rhaa.sholi.data.model.Checkable;
 import name.soulayrol.rhaa.sholi.data.model.Item;
+import name.soulayrol.rhaa.sholi.data.model.ItemDao;
 
 public abstract class Action {
 
@@ -80,6 +82,30 @@ public abstract class Action {
                         R.plurals.action_uncheck, items, items);
             }
             return items != 0;
+        }
+    }
+
+    public static class CheckOrUncheckAll extends Action {
+        @Override
+        public boolean doProceed(CheckingFragment fragment) {
+            Action action;
+            if (getNbItemsByStatus(fragment, Checkable.UNCHECKED) > 0)
+                action = new CheckAll();
+            else
+                action = new UncheckAll();
+            return delegate(fragment, action);
+        }
+    }
+
+    public static class UncheckOrCheckAll extends Action {
+        @Override
+        public boolean doProceed(CheckingFragment fragment) {
+            Action action;
+            if (getNbItemsByStatus(fragment, Checkable.CHECKED) > 0)
+                action = new UncheckAll();
+            else
+                action = new CheckAll();
+            return delegate(fragment, action);
         }
     }
 
@@ -147,6 +173,13 @@ public abstract class Action {
         return _success;
     }
 
+    protected boolean delegate(CheckingFragment fragment, Action action) {
+        _success = action.doProceed(fragment);
+        _description = action.getDescription();
+
+        return _success;
+    }
+
     protected int updateAllItems(CheckingFragment fragment, int status) {
         return updateAllItems(fragment, status, -1);
     }
@@ -166,5 +199,10 @@ public abstract class Action {
 
         fragment.getSession().getItemDao().updateInTx(items);
         return items.size();
+    }
+
+    protected long getNbItemsByStatus(CheckingFragment fragment, int status) {
+        QueryBuilder builder = fragment.getSession().getItemDao().queryBuilder();
+        return builder.where(ItemDao.Properties.Status.eq(status)).buildCount().count();
     }
 }

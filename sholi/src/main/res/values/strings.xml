@@ -60,6 +60,8 @@
         <item>None</item>
         <item>Check all</item>
         <item>Uncheck all</item>
+        <item>Check or uncheck all</item>
+        <item>Uncheck or check all</item>
         <item>Remove checked items</item>
         <item>Remove all</item>
     </string-array>

@@ -22,6 +22,8 @@
         <item></item>
         <item>name.soulayrol.rhaa.sholi.data.Action$CheckAll</item>
         <item>name.soulayrol.rhaa.sholi.data.Action$UncheckAll</item>
+        <item>name.soulayrol.rhaa.sholi.data.Action$CheckOrUncheckAll</item>
+        <item>name.soulayrol.rhaa.sholi.data.Action$UncheckOrCheckAll</item>
         <item>name.soulayrol.rhaa.sholi.data.Action$RemoveChecked</item>
         <item>name.soulayrol.rhaa.sholi.data.Action$Empty</item>
     </string-array>
