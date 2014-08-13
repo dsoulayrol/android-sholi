@@ -21,7 +21,7 @@ Este documento pretende ser el manual de usuario de **ShoLi**. Los usuarios que 
 
 **ShoLi** mantiene un conjunto de elementos, y esos elementos se utilizan para elaborar listas. Un uso típico consiste en, primero, crear o completar el conjunto de artículos de alimentación y ponerlos en la lista (por lo general en casa, cuando usted se da cuenta de que se va a acabar la leche, por ejemplo) y luego abrir la lista y marcar los elementos cuando se introducen en el carrito de la compra. **ShoLi** no está limitado sólo a listas de alimentación, por lo que pueden crearse listas con cualquier otro contenido.
 
-Cuando **ShoLi** se inicia la primera vez aparece la *vista principal*, que es no resulta útil en este momento debido a que tanto su lista como su conjunto de elementos están vacíos. Al hacer clic en el icono de la pluma se pasa a la *vista de edición*. Allí se puede utilizar el campo de entrada en la parte superior de la pantalla para introducir nuevos elementos. Nótese cómo este campo actúa como un filtro en la vista y que no se puede introducir el mismo nombre del artículo dos veces. A continuación toque un elemento para ponerlo en la lista (se convierte en verde) o eliminarlo de la lista (que se convierte en gris).
+Cuando **ShoLi** se inicia la primera vez aparece la *vista principal*, que es no resulta útil en este momento debido a que tanto su lista como su conjunto de elementos están vacíos. Al hacer clic en el icono de la pluma se pasa a la *vista de edición*. Allí se puede utilizar el campo de entrada en la parte superior de la pantalla para introducir nuevos elementos. Nótese cómo este campo actúa como un filtro en la vista y que no se puede introducir el mismo nombre del artículo dos veces. A continuación toque un elemento para ponerlo en la lista (pasa a ser de color verde) o eliminarlo de la lista (vuelve a ser de color gris).
 
 Cuando la lista esté completa puede volver a la *vista principal* haciendo clic en el icono de la aplicación o el botón de retroceso de **Android**. Ningún nuevo elemento se puede introducir ahora pero usted puede marcar los que ha añadido previamente tocándolos. En caso de error se restauran con otro toque.
 
@@ -32,7 +32,7 @@ La *vista principal* ofrece algunas acciones que pueden ser útiles para acelera
  * *Marcar todos*, para marcar todos los elementos de la lista.
  * *Desmarcar todo*, para desmarcar todos los elementos de la lista.
  * *Eliminar los elementos marcados*, para eliminar todos los elementos que se encuentran marcados de la lista. Los artículos están todavía disponibles en el conjunto de artículos para elegir en la *vista de edición*.
-  * *Eliminar todo*, para vaciar la lista. Una vez más, todos los elementos eliminados siguen almacenados por **ShoLi* y se pueden poner en una lista de nuevo desde la *vista de edición*.
+ * *Eliminar todo*, para vaciar la lista. Una vez más, todos los elementos eliminados siguen almacenados por **ShoLi** y se pueden poner en una lista de nuevo desde la *vista de edición*.
 
 ### Gestos
 
