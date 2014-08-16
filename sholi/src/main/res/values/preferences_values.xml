@@ -18,7 +18,7 @@
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string-array name="settings_checking_actions_values">
+    <string-array name="settings_checking_actions_values" translatable="false">
         <item></item>
         <item>name.soulayrol.rhaa.sholi.data.Action$CheckAll</item>
         <item>name.soulayrol.rhaa.sholi.data.Action$UncheckAll</item>
@@ -27,22 +27,22 @@
         <item>name.soulayrol.rhaa.sholi.data.Action$RemoveChecked</item>
         <item>name.soulayrol.rhaa.sholi.data.Action$Empty</item>
     </string-array>
-    <string name="settings_checking_fling_to_left_default_value"></string>
-    <string name="settings_checking_fling_to_right_default_value">name.soulayrol.rhaa.sholi.data.Action$RemoveChecked</string>
+    <string name="settings_checking_fling_to_left_default_value" translatable="false"></string>
+    <string name="settings_checking_fling_to_right_default_value" translatable="false">name.soulayrol.rhaa.sholi.data.Action$RemoveChecked</string>
 
-    <string-array name="settings_items_size_values">
+    <string-array name="settings_items_size_values" translatable="false">
         <item>15</item>
         <item>18</item>
         <item>20</item>
         <item>25</item>
         <item>30</item>
     </string-array>
-    <string name="settings_items_size_default_value">18</string>
+    <string name="settings_items_size_default_value" translatable="false">18</string>
 
-    <string-array name="setting_import_values">
+    <string-array name="setting_import_values" translatable="false">
         <item>ignore</item>
         <item>merge</item>
     </string-array>
-    <string name="setting_import_default_value">ignore</string>
+    <string name="setting_import_default_value" translatable="false">ignore</string>
 </resources>
 
