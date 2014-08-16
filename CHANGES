@@ -1,3 +1,10 @@
+Version 1.4
+  + Introduced gestures on checking view
+  * Introduced greenDAO to handle database
+  * Fixed #5 (Can't add items)
+  * Fixed #9 (Move or add confirmation to "Remove All Items")
+  - Removed the data provider
+
 Version 1.3
   + Added a setting to select the list items size (fixes #2)
   + Added a merge policy setting (fixes #3)
