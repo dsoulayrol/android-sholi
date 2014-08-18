@@ -2,3 +2,7 @@
 
 # Preventing obfuscation leads to an error. The following is a workaround.
 -optimizations !code/allocation/variable
+
+-keep public class name.soulayrol.rhaa.sholi.data.model.** {
+     public static <fields>;
+}
