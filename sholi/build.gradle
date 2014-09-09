@@ -41,3 +41,7 @@ android {
         }
     }
 }
+
+gradle.projectsEvaluated {
+    preBuild.dependsOn(':sholimodelgenerator:generate')
+}
