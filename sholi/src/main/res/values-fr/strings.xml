@@ -43,7 +43,7 @@
     <string name="dialog_about_title">À propos de ShoLi</string>
     <string name="dialog_erase_all_message">Cette opération est irréversible. Continuer ?</string>
     <string name="dialog_erase_all_title">Tout effacer</string>
-    <string name="dialog_checking_confirm_remove_checked">Retirer les items cochés ?</string>
+    <string name="dialog_checking_confirm_remove_checked">Retirer les articles cochés ?</string>
     <string name="dialog_checking_confirm_remove_all">Vider la liste ?</string>
 
     <!-- Settings -->
@@ -53,9 +53,9 @@
     <string name="settings_checking_fling_to_left_action">Balayage vers la gauche</string>
     <string name="settings_checking_fling_to_right_action">Balayage vers la droite</string>
     <string name="settings_checking_action_dlg_title">Choisissez une action</string>
-    <string name="settings_checking_confirm_remove_checked_action">Confirmer avant de retirer des items</string>
+    <string name="settings_checking_confirm_remove_checked_action">Confirmer avant de retirer des articles</string>
     <string name="settings_checking_confirm_remove_all_action">Confimer avant de vider</string>
-    <string name="settings_items_size_title">Taille de la police pour les items</string>
+    <string name="settings_items_size_title">Taille de la police pour les articles</string>
     <string name="settings_import_title">Politique de fusion</string>
     <string name="settings_import_dlg_title">Pendant l\'importation</string>
     <string-array name="settings_checking_actions_choices">
