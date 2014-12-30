@@ -26,17 +26,17 @@
     <string name="action_edit_erase_all">Tout effacer</string>
     <string name="action_checking_check_all">Tout cocher</string>
     <string name="action_checking_edit">Éditer</string>
-    <string name="action_checking_empty">Retirer tous les items</string>
+    <string name="action_checking_empty">Retirer tous les articles</string>
     <string name="action_checking_menu">Action</string>
-    <string name="action_checking_remove_checked">Retirer les items cochés</string>
+    <string name="action_checking_remove_checked">Retirer les article cochés</string>
     <string name="action_checking_uncheck_all">Tout décocher</string>
     <string name="action_main_about">À propos</string>
     <string name="action_main_data_overview">Gestion des données</string>
     <string name="action_main_settings">Préférences</string>
 
     <!-- Dialog messages -->
-    <string name="dialog_about_version">Version %1$s (itération: %2$d)</string>
-    <string name="dialog_about_copyright">Copyright &#169; 2013,2014 David Soulayrol</string>
+    <string name="dialog_about_version">Version %1$s (itération : %2$d)</string>
+    <string name="dialog_about_copyright">Copyright &#169; 2013, 2014 David Soulayrol</string>
     <string name="dialog_about_description">Un gestionnaire simple de listes</string>
     <string name="dialog_about_license">Ce programme vient SANS AUCUNE GARANTIE. C\'est un logiciel libre et vous êtes invité à le redistribuer suivant certaines conditions.\nVoyez http://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="dialog_about_icon">Le logo est dérivé de <tt>List-Icon.svg</tt>, disponible sous une license libre sur <i>Wikimedia Commons</i>.</string>
@@ -77,7 +77,7 @@
     <string name="fragment_edit_list_empty">Aucun élément</string>
     <string name="fragment_edit_add_button">Ajouter</string>
     <string name="fragment_edit_input_hint">Intitulé</string>
-    <string name="fragment_edit_selection_mode_title">Sélection des items</string>
+    <string name="fragment_edit_selection_mode_title">Sélection des articles</string>
     <string name="fragment_edit_title">Éditer la liste</string>
 
     <string name="activity_data_title">Gestion des données</string>
@@ -92,43 +92,43 @@
 
     <plurals name="fragment_data_overview_text">
         <item quantity="zero">La base de données est vide.</item>
-        <item quantity="one">Il y a %d item dans la base de données.</item>
-        <item quantity="other">Il y a %d items dans la base de données.</item>
+        <item quantity="one">Il y a %d article dans la base de données.</item>
+        <item quantity="other">Il y a %d articles dans la base de données.</item>
     </plurals>
     <plurals name="fragment_data_import_text">
         <item quantity="zero">Les données ne contiennent aucune liste.</item>
-        <item quantity="one">Lecture de %d item.</item>
-        <item quantity="other">Lecture de %d items.</item>
+        <item quantity="one">Lecture de %d article.</item>
+        <item quantity="other">Lecture de %d articles.</item>
     </plurals>
     <plurals name="fragment_data_import_success_text">
-        <item quantity="zero">Aucun item n\'a été importé</item>
-        <item quantity="one">%d item importé</item>
-        <item quantity="other">%d items importés</item>
+        <item quantity="zero">Aucun article n\'a été importé</item>
+        <item quantity="one">%d article importé</item>
+        <item quantity="other">%d articles importés</item>
     </plurals>
     <plurals name="fragment_data_import_ignored_text">
         <item quantity="zero">.</item>
-        <item quantity="one">, %d item ignoré.</item>
-        <item quantity="other">, %d items ignoré.</item>
+        <item quantity="one">, %d article ignoré.</item>
+        <item quantity="other">, %d articles ignorés.</item>
     </plurals>
     <plurals name="action_check">
-        <item quantity="zero">Aucun item coché</item>
-        <item quantity="one">%d item coché</item>
-        <item quantity="other">%d items cochés</item>
+        <item quantity="zero">Aucun article coché</item>
+        <item quantity="one">%d article coché</item>
+        <item quantity="other">%d articles cochés</item>
     </plurals>
     <plurals name="action_uncheck">
-        <item quantity="zero">Aucun item décoché</item>
-        <item quantity="one">%d item décoché</item>
-        <item quantity="other">%d items décochés</item>
+        <item quantity="zero">Aucun article décoché</item>
+        <item quantity="one">%d article décoché</item>
+        <item quantity="other">%d articles décochés</item>
     </plurals>
     <plurals name="action_remove">
-        <item quantity="zero">Aucun item retiré</item>
-        <item quantity="one">%d item retiré</item>
-        <item quantity="other">%d items retirés</item>
+        <item quantity="zero">Aucun article retiré</item>
+        <item quantity="one">%d article retiré</item>
+        <item quantity="other">%d articles retirés</item>
     </plurals>
 
     <plurals name="selectedItems">
-        <item quantity="one">Un élément sélectionné.</item>
-        <item quantity="other">%d éléments sélectionnés.</item>
+        <item quantity="one">Un article sélectionné.</item>
+        <item quantity="other">%d articles sélectionnés.</item>
     </plurals>
 
 </resources>
