@@ -36,7 +36,7 @@
 
     <!-- Dialog messages -->
     <string name="dialog_about_version">Versión %1$s (iteración: %2$d)</string>
-    <string name="dialog_about_copyright">Copyright &#169; 2013,2014 David Soulayrol</string>
+    <string name="dialog_about_copyright">Copyright &#169; 2013-2015 David Soulayrol</string>
     <string name="dialog_about_description">Gestor de listas simple <i>sho</i>rt <i>li</i>sts</string>
     <string name="dialog_about_license">Este programa se ofrece sin NINGUNA GARANTÍA. Es software libre, puede redistribuirlo bajo algunas condiciones.\nVer http://www.gnu.org/licenses/gpl-3.0.html</string>
     <string name="dialog_about_icon">El icono se deriva de <tt>List-Icon.svg</tt> el cual está disponible bajo licencia abierta en <i>Wikimedia Commons</i>.</string>
