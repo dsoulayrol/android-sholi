@@ -32,6 +32,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import de.greenrobot.dao.query.LazyList;
 import de.greenrobot.dao.query.QueryBuilder;
 import name.soulayrol.rhaa.sholi.data.Action;
@@ -48,6 +51,8 @@ public class CheckingFragment extends AbstractListFragment implements
 
     private InterceptorFrameLayout _interceptor;
 
+    private Map<Integer, String> _defaultActionClassNames;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,6 +62,16 @@ public class CheckingFragment extends AbstractListFragment implements
         // It is too early to call getListView here, so we fetch the view from its ID.
         _listView = (ListView) view.findViewById(android.R.id.list);
         _interceptor = (InterceptorFrameLayout) view;
+
+        // Preload default actions, since getResources cannot be called when the fragment
+        // is detached, from onSharedPreferenceChanged. (See #13)
+        _defaultActionClassNames = new HashMap<Integer, String>();
+        _defaultActionClassNames.put(R.string.settings_checking_fling_to_left_default_value,
+                        getResources().getString(
+                                R.string.settings_checking_fling_to_left_default_value));
+        _defaultActionClassNames.put(R.string.settings_checking_fling_to_right_default_value,
+                        getResources().getString(
+                                R.string.settings_checking_fling_to_right_default_value));
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sharedPref.registerOnSharedPreferenceChangeListener(this);
@@ -176,13 +191,11 @@ public class CheckingFragment extends AbstractListFragment implements
         switch (gesture) {
             case FLING_TO_LEFT:
                 className = sharedPreferences.getString(SettingsActivity.KEY_CHECKING_FLING_LEFT_ACTION,
-                        getResources().getString(
-                                R.string.settings_checking_fling_to_left_default_value));
+                        _defaultActionClassNames.get(R.string.settings_checking_fling_to_left_default_value));
                 break;
             case FLING_TO_RIGHT:
                 className = sharedPreferences.getString(SettingsActivity.KEY_CHECKING_FLING_RIGHT_ACTION,
-                        getResources().getString(
-                                R.string.settings_checking_fling_to_right_default_value));
+                        _defaultActionClassNames.get(R.string.settings_checking_fling_to_right_default_value));
                 break;
         }
         configureGesture(gesture, className);
