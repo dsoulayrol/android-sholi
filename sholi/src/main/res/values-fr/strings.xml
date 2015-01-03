@@ -2,7 +2,7 @@
 <!--
  ShoLi, a simple tool to produce short (shopping) lists.
 
- Copyright (C) 2013,2014  David Soulayrol
+ Copyright (C) 2013,2014,2015  David Soulayrol
 
  ShoLi is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@
     <string name="action_checking_edit">Éditer</string>
     <string name="action_checking_empty">Retirer tous les articles</string>
     <string name="action_checking_menu">Action</string>
-    <string name="action_checking_remove_checked">Retirer les article cochés</string>
+    <string name="action_checking_remove_checked">Retirer les articles cochés</string>
     <string name="action_checking_uncheck_all">Tout décocher</string>
     <string name="action_main_about">À propos</string>
     <string name="action_main_data_overview">Gestion des données</string>
