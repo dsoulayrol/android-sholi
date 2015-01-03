@@ -1,3 +1,8 @@
+Version 1.4.2
+  * Fixed #12 (Crash when setting a new gesture)
+  * Fixed #15 (F-Droid compilation fails since 1.4.0)
+  * Revised the French translation
+
 Version 1.4.1
   * Fixed #11 (Force close on startup with 1.4)
 
