@@ -1,6 +1,6 @@
 /*
  * ShoLi, a simple tool to produce short lists.
- * Copyright (C) 2013,2014  David Soulayrol
+ * Copyright (C) 2013,2014,2015  David Soulayrol
  *
  * ShoLi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -179,7 +179,7 @@ public class EditFragment extends AbstractListFragment {
             MenuInflater inflater = getActivity().getMenuInflater();
             inflater.inflate(R.menu.list_select, menu);
             mode.setTitle(R.string.fragment_edit_selection_mode_title);
-            _newItemEdit.setVisibility(View.GONE);
+            _newItemEdit.setVisibility(View.INVISIBLE);
             return true;
         }
 

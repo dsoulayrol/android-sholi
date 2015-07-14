@@ -1,6 +1,7 @@
 Version 1.5.0
   + Serialized data format is now customizable (fixes #21)
   * Fixed #18 (App crash when deleting item)
+  * Fixed #19 (After an item is removed, the top text field overlaps the list)
   * Revised the French translation
 
 Version 1.4.2
