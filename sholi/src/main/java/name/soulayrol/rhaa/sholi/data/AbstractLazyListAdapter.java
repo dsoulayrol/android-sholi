@@ -1,6 +1,6 @@
 /*
  * ShoLi, a simple tool to produce short lists.
- * Copyright (C) 2014  David Soulayrol
+ * Copyright (C) 2014,2015  David Soulayrol
  *
  * ShoLi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -68,7 +68,7 @@ public abstract class AbstractLazyListAdapter<T extends PersistentObject> extend
 
     @Override
     public Object getItem(int position) {
-        if (_lazyList != null) {
+        if (_lazyList != null && position < _lazyList.size()) {
             return _lazyList.get(position);
         } else {
             return null;
@@ -77,7 +77,7 @@ public abstract class AbstractLazyListAdapter<T extends PersistentObject> extend
 
     @Override
     public long getItemId(int position) {
-        if (_lazyList != null) {
+        if (_lazyList != null && position < _lazyList.size()) {
             T item = _lazyList.get(position);
             if (item != null)
                 return item.getId();
@@ -87,7 +87,7 @@ public abstract class AbstractLazyListAdapter<T extends PersistentObject> extend
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (_lazyList == null)
+        if (_lazyList == null || position >= _lazyList.size())
             throw new IllegalStateException("Empty adapter");
 
         T item = _lazyList.get(position);
