@@ -1,7 +1,7 @@
 /*
  * ShoLi, a simple tool to produce short lists.
  *
- * Copyright (C) 2013,2014  David Soulayrol
+ * Copyright (C) 2013,2014,2015  David Soulayrol
  *
  * ShoLi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -65,7 +65,7 @@ public class DataOverviewFragment extends Fragment {
                 StringBuilder builder = new StringBuilder();
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 LazyList<Item> items = _session.getItemDao().queryBuilder().listLazy();
-                Operations.serialize(items, builder);
+                Operations.serialize(getActivity(), items, builder);
                 items.close();
 
                 intent.setType("text/plain");

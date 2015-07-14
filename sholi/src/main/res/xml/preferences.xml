@@ -2,7 +2,7 @@
 <!--
  ShoLi, a simple tool to produce short (shopping) lists.
 
- Copyright (C) 2014  David Soulayrol
+ Copyright (C) 2014,2015  David Soulayrol
 
  ShoLi is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -51,6 +51,30 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/settings_category_import"
+        android:key="pref_others">
+        <EditTextPreference
+            android:key="pref_import_symbol_checked"
+            android:title="@string/settings_import_marker_checked_title"
+            android:defaultValue="+" />
+        <EditTextPreference
+            android:key="pref_import_symbol_unchecked"
+            android:title="@string/settings_import_marker_unchecked_title"
+            android:defaultValue="-" />
+        <EditTextPreference
+            android:key="pref_import_symbol_offlist"
+            android:title="@string/settings_import_marker_offlist_title"
+            android:defaultValue="*" />
+        <ListPreference
+            android:key="pref_import_merge_policy"
+            android:title="@string/settings_import_merge_policy_title"
+            android:dialogTitle="@string/settings_import_dlg_title"
+            android:entries="@array/settings_import_choices"
+            android:entryValues="@array/setting_import_values"
+            android:defaultValue="@string/setting_import_default_value" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/settings_category_others"
         android:key="pref_others">
         <ListPreference
@@ -60,12 +84,5 @@
             android:entries="@array/settings_items_size_values"
             android:entryValues="@array/settings_items_size_values"
             android:defaultValue="@string/settings_items_size_default_value" />
-        <ListPreference
-            android:key="pref_import_merge_policy"
-            android:title="@string/settings_import_title"
-            android:dialogTitle="@string/settings_import_dlg_title"
-            android:entries="@array/settings_import_choices"
-            android:entryValues="@array/setting_import_values"
-            android:defaultValue="@string/setting_import_default_value" />
     </PreferenceCategory>
 </PreferenceScreen>

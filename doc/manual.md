@@ -67,13 +67,15 @@ As an example, the **920 Text Editor** or the **K-9** mailer are known to work i
 
 #### Data Format
 
-An exported set of items is a plain text file. Each line is the name of an item, preceeded by a single character which defines its status.
+An exported set of items is a plain text file. Each line is the name of an item, preceded by a marker which defines its status. When data is imported, only lines with this format are parsed, so any form of comment can be added in between.
+
+By default, markers are defined as follow:
 
  * `*`: the item is not listed.
  * `-`: the item is listed.
  * `+`: the item is listed, and checked.
 
-When data is imported, only lines with this format are parsed, so any form of comment can be added in between.
+These markers can be redefined at will in settings. They can be anything and are not limited to a single character. However, they cannot be empty or only spaces, and they cannot overlap (they all must be different from each other).
 
 ## License
 

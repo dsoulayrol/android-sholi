@@ -1,7 +1,7 @@
 /*
  * ShoLi, a simple tool to produce short (shopping) lists.
  *
- * Copyright (C) 2013,2014  David Soulayrol
+ * Copyright (C) 2013,2014,2015  David Soulayrol
  *
  * ShoLi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,14 +19,20 @@
 package name.soulayrol.rhaa.sholi.data;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import de.greenrobot.dao.query.LazyList;
+import name.soulayrol.rhaa.sholi.R;
+import name.soulayrol.rhaa.sholi.SettingsActivity;
 import name.soulayrol.rhaa.sholi.data.model.Checkable;
 import name.soulayrol.rhaa.sholi.data.model.DaoMaster;
 import name.soulayrol.rhaa.sholi.data.model.DaoSession;
@@ -53,36 +59,30 @@ public class Operations {
         return daoMaster.newSession();
     }
 
-    public static void serialize(LazyList<Item> items, StringBuilder builder) {
+    public static void serialize(Context context, LazyList<Item> items, StringBuilder builder) {
+        Map<Integer, String> map = buildMapping(context);
         for (Item item: items) {
-            switch (item.getStatus()) {
-                case Checkable.CHECKED:
-                    builder.append('+');
-                    break;
-                case Checkable.UNCHECKED:
-                    builder.append('-');
-                    break;
-                default:
-                    builder.append('*');
-                    break;
-            }
+            builder.append(map.get(item.getStatus()));
             builder.append(item.getName()).append('\n');
         }
     }
 
-    public static List<Item> deserialize(String data) {
+    public static List<Item> deserialize(Context context, String data) {
+        Map<Integer, String> map = buildMapping(context);
         List<Item> items = new ArrayList<Item>();
         Scanner scanner = new Scanner(data);
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             if (line.length() <= MAX_SERIALIZED_LENGTH) {
-                if (line.startsWith("+"))
-                    items.add(new Item(null, line.substring(1).trim(), Checkable.CHECKED));
-                else if (line.startsWith("-"))
-                    items.add(new Item(null, line.substring(1).trim(), Checkable.UNCHECKED));
-                else if (line.startsWith("*"))
-                    items.add(new Item(null, line.substring(1).trim(), Checkable.OFF_LIST));
+                for (Map.Entry e: map.entrySet()) {
+                    if (line.startsWith((String) e.getValue())) {
+                        items.add(new Item(
+                                null, line.substring(((String) e.getValue()).length()).trim(),
+                                (Integer) e.getKey()));
+                        break;
+                    }
+                }
             }
         }
 
@@ -103,4 +103,20 @@ public class Operations {
         }
     }
 
+    private static Map<Integer, String> buildMapping(Context context) {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        Map<Integer, String> map = new HashMap<Integer, String>();
+
+        map.put(Checkable.CHECKED, sharedPref.getString(
+                SettingsActivity.KEY_IMPORT_SYMBOL_CHECKED,
+                context.getResources().getString(R.string.setting_import_default_value)));
+        map.put(Checkable.UNCHECKED, sharedPref.getString(
+                SettingsActivity.KEY_IMPORT_SYMBOL_UNCHECKED,
+                context.getResources().getString(R.string.setting_import_default_value)));
+        map.put(Checkable.OFF_LIST, sharedPref.getString(
+                SettingsActivity.KEY_IMPORT_SYMBOL_OFF_LIST,
+                context.getResources().getString(R.string.setting_import_default_value)));
+
+        return map;
+    }
 }

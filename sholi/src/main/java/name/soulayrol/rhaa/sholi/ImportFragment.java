@@ -1,7 +1,7 @@
 /*
  * ShoLi, a simple tool to produce short lists.
  *
- * Copyright (C) 2014  David Soulayrol
+ * Copyright (C) 2014,2015  David Soulayrol
  *
  * ShoLi is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -171,7 +171,7 @@ public class ImportFragment extends DialogFragment {
             }
 
             final DaoSession session = Operations.openSession(getActivity());
-            final List<Item> items = Operations.deserialize(_data);
+            final List<Item> items = Operations.deserialize(getActivity(), _data);
             final List<Item> dbItems = session.getItemDao().loadAll();
             _dataSize = items.size();
             publishProgress(0);

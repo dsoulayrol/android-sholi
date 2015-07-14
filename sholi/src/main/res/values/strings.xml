@@ -2,7 +2,7 @@
 <!--
  ShoLi, a simple tool to produce short (shopping) lists.
 
- Copyright (C) 2013,2014  David Soulayrol
+ Copyright (C) 2013,2014,2015  David Soulayrol
 
  ShoLi is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -49,6 +49,7 @@
     <!-- Settings -->
     <string name="activity_settings_title">Settings</string>
     <string name="settings_category_checking">Checking</string>
+    <string name="settings_category_import">Import/Export</string>
     <string name="settings_category_others">Others</string>
     <string name="settings_checking_fling_to_left_action">Action on swipe to left</string>
     <string name="settings_checking_fling_to_right_action">Action on swipe to right</string>
@@ -56,7 +57,10 @@
     <string name="settings_checking_confirm_remove_checked_action">Confirm removing checked items</string>
     <string name="settings_checking_confirm_remove_all_action">Confirm removing all items</string>
     <string name="settings_items_size_title">List items text size</string>
-    <string name="settings_import_title">Merge policy on import</string>
+    <string name="settings_import_marker_checked_title">Marker for checked items</string>
+    <string name="settings_import_marker_unchecked_title">Marker for unchecked items</string>
+    <string name="settings_import_marker_offlist_title">Marker for unlisted items</string>
+    <string name="settings_import_merge_policy_title">Merge policy on import</string>
     <string name="settings_import_dlg_title">On import</string>
     <string-array name="settings_checking_actions_choices">
         <item>None</item>
@@ -89,6 +93,8 @@
     <string name="fragment_data_export_subject">Sholi Database Content</string>
     <string name="fragment_data_erase_text">Erase the entire content of the database. This operation is not reversible.</string>
     <string name="fragment_data_erase_button">Erase All</string>
+
+    <string name="fragment_settings_marker_error">Marker is invalid</string>
 
     <!-- Zero is not working as expected in plurals.
          See http://code.google.com/p/android/issues/detail?id=8287 -->
