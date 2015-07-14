@@ -49,6 +49,7 @@
     <!-- Settings -->
     <string name="activity_settings_title">Préférences</string>
     <string name="settings_category_checking">Interaction</string>
+    <string name="settings_category_import">Import/Export</string>
     <string name="settings_category_others">Autres</string>
     <string name="settings_checking_fling_to_left_action">Balayage vers la gauche</string>
     <string name="settings_checking_fling_to_right_action">Balayage vers la droite</string>
@@ -56,7 +57,10 @@
     <string name="settings_checking_confirm_remove_checked_action">Confirmer avant de retirer des articles</string>
     <string name="settings_checking_confirm_remove_all_action">Confimer avant de vider</string>
     <string name="settings_items_size_title">Taille de la police pour les articles</string>
-    <string name="settings_import_title">Politique de fusion</string>
+    <string name="settings_import_marker_checked_title">Balise pour les articles cochés</string>
+    <string name="settings_import_marker_unchecked_title">Balise pour les articles décochés</string>
+    <string name="settings_import_marker_offlist_title">Balise pour les articles hors-listes</string>
+    <string name="settings_import_merge_policy_title">Politique de fusion</string>
     <string name="settings_import_dlg_title">Pendant l\'importation</string>
     <string-array name="settings_checking_actions_choices">
         <item>Aucune</item>
@@ -89,6 +93,8 @@
     <string name="fragment_data_export_subject">Base de données Sholi</string>
     <string name="fragment_data_erase_text">Effacer la totalité de la base de données. Cette opération n\'est pas réversible.</string>
     <string name="fragment_data_erase_button">Tout effacer</string>
+
+    <string name="fragment_settings_marker_error">Balise invalide</string>
 
     <plurals name="fragment_data_overview_text">
         <item quantity="zero">La base de données est vide.</item>
