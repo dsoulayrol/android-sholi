@@ -56,7 +56,7 @@
     <string name="settings_checking_confirm_remove_checked_action">Confirmar eliminación de los elementos marcados</string>
     <string name="settings_checking_confirm_remove_all_action">Confimar eliminación de todos los elementos</string>
     <string name="settings_items_size_title">Tamaño de letra de la lista</string>
-    <string name="settings_import_title">Política de importación</string>
+    <string name="settings_import_merge_policy_title">Política de importación</string>
     <string name="settings_import_dlg_title">Al importar</string>
     <string-array name="settings_checking_actions_choices">
         <item>Ninguno</item>
